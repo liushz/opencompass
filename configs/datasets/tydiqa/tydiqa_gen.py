@@ -44,7 +44,7 @@ for _lang in langs:
     dict(abbr=f'tyidqa-goldp_{_lang}',
         type=tydiqaDataset,
         path='khalidalt/tydiqa-goldp',
-        name = _lang,
+        name=_lang,
         reader_cfg=tydiqa_reader_cfg,
         infer_cfg=tydiqa_infer_cfg,
         eval_cfg=tydiqa_eval_cfg))
