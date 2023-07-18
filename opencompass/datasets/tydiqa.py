@@ -4,14 +4,12 @@ from collections import Counter
 from datasets import load_dataset
 
 from opencompass.openicl.icl_evaluator import BaseEvaluator
-from opencompass.registry import EVALUATORS, LOAD_DATASET
 from opencompass.utils.text_postprocessors import general_postprocess
 
 from .base import BaseDataset
 
 
-@LOAD_DATASET.register_module()
-class tydiqaDataset(BaseDataset):
+class TydiQADataset(BaseDataset):
 
     @staticmethod
     def load(**kwargs):
@@ -25,7 +23,6 @@ class tydiqaDataset(BaseDataset):
         return dataset
 
 
-@EVALUATORS.register_module()
 class TydiQAEvaluator(BaseEvaluator):
     # This evaluation class is edited from:
     #  https://github.com/allenai/bi-att-flow/blob/master/squad/evaluate-v1.1.py
