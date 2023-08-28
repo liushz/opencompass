@@ -1,0 +1,721 @@
+{
+    "10": {
+        "query": "I'm organizing a charity event and I need to track the donations we receive. Can you help me track the package containing the donation items? The tracking number is GHI789. Also, provide me with the latest status and location updates. Additionally, find the address details for the event venue using the zip code 24680.",
+        "available_tools": [
+            {
+                "name": "api_tracking_for_pack_send",
+                "description": "This is the subfunction for tool \"pack_send\", you can use this tool.The description of this function is: \"If you support your Pack & Send Reference Number, we can provide your with some relevant information.\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "reference": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "ReferenceNumberHere"
+                        }
+                    },
+                    "required": [
+                        "reference"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "retorna_dados_do_endere_o_atrav_s_do_cep_for_cep_brazil",
+                "description": "This is the subfunction for tool \"cep_brazil\", you can use this tool.The description of this function is: \"Retorna dados endere\u00e7o\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "cepnumber": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "75094080"
+                        }
+                    },
+                    "required": [
+                        "cepnumber"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "track_package_for_amex_australia_fastway_australia_tracking",
+                "description": "This is the subfunction for tool \"amex_australia_fastway_australia_tracking\", you can use this tool.The description of this function is: \"Track a package shipping details using a package tracking number\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "tracking_number": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "1234567890"
+                        }
+                    },
+                    "required": [
+                        "tracking_number"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "count_for_suivi_colis",
+                "description": "This is the subfunction for tool \"suivi_colis\", you can use this tool.The description of this function is: \"Compte le nombre d'\u00e9tapes de l'historique, pratique pour limiter la consommation r\u00e9seau ou les ressources sur un IoT. Permet par exemple de poller un \u00e9tat de mani\u00e8re optimale.\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "colisid": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "CA107308006SI"
+                        }
+                    },
+                    "required": [
+                        "colisid"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "latest_for_suivi_colis",
+                "description": "This is the subfunction for tool \"suivi_colis\", you can use this tool.The description of this function is: \"L'\u00e9tat courant (ie. le dernier \u00e9tat du colis).\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "colisid": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "CA107308006SI"
+                        }
+                    },
+                    "required": [
+                        "colisid"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "health_for_suivi_colis",
+                "description": "This is the subfunction for tool \"suivi_colis\", you can use this tool.The description of this function is: \"Get the API's health\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "optional": []
+                }
+            },
+            {
+                "name": "il_for_turkey_postal_codes",
+                "description": "This is the subfunction for tool \"turkey_postal_codes\", you can use this tool.The description of this function is: \"Turkish plates. 1 to 81\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "il": {
+                            "type": "integer",
+                            "description": "",
+                            "example_value": "34"
+                        }
+                    },
+                    "required": [
+                        "il"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "Finish",
+                "description": "If you believe that you have obtained a result that can answer the task, please call this function to provide the final answer. Alternatively, if you recognize that you are unable to proceed with the task in the current state, call this function to restart. Remember: you must ALWAYS call this function at the end of your attempt, and the only part that will be shown to the user is the final answer, so it should contain sufficient information.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "return_type": {
+                            "type": "string",
+                            "enum": [
+                                "give_answer",
+                                "give_up_and_restart"
+                            ]
+                        },
+                        "final_answer": {
+                            "type": "string",
+                            "description": "The final answer you want to give the user. You should have this field if \"return_type\"==\"give_answer\""
+                        }
+                    },
+                    "required": [
+                        "return_type"
+                    ]
+                }
+            }
+        ],
+        "answer": {
+            "method": "DFS",
+            "total_steps": 6,
+            "final_answer": "{\n  \"return_type\": \"give_up_and_restart\"\n}",
+            "answer_details": [
+                {
+                    "role": "system",
+                    "message": "",
+                    "next": [
+                        {
+                            "role": "user",
+                            "message": "I'm organizing a charity event and I need to track the donations we receive. Can you help me track t",
+                            "next": [
+                                {
+                                    "role": "tool",
+                                    "message": "{'name': 'track_package_for_amex_australia_fastway_australia_tracking', 'arguments': '{\\n  \"tracking",
+                                    "next": [
+                                        {
+                                            "role": "tool",
+                                            "message": "{'name': 'latest_for_suivi_colis', 'arguments': '{\\n  \"colisid\": \"GHI789\"\\n}', 'response': '{\"error\"",
+                                            "next": [
+                                                {
+                                                    "role": "tool",
+                                                    "message": "{'name': 'retorna_dados_do_endere_o_atrav_s_do_cep_for_cep_brazil', 'arguments': '{\\n  \"cepnumber\": ",
+                                                    "next": [
+                                                        {
+                                                            "role": "tool",
+                                                            "message": "{'name': 'Finish', 'arguments': '{\\n  \"return_type\": \"give_up_and_restart\"\\n}', 'response': ''}",
+                                                            "next": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "52": {
+        "query": "I'm organizing a company event and I need to send out invitations. Can you track the package with the tracking number RB413450335SG? Also, provide me with the address details using the postal code 75094080.",
+        "available_tools": [
+            {
+                "name": "projects_for_squake",
+                "description": "This is the subfunction for tool \"squake\", you can use this tool.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "optional": []
+                }
+            },
+            {
+                "name": "checkhealth_for_squake",
+                "description": "This is the subfunction for tool \"squake\", you can use this tool.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "optional": []
+                }
+            },
+            {
+                "name": "companies_for_kargom_nerede",
+                "description": "This is the subfunction for tool \"kargom_nerede\", you can use this tool.The description of this function is: \"Companies\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "optional": []
+                }
+            },
+            {
+                "name": "retorna_dados_do_endere_o_atrav_s_do_cep_for_cep_brazil",
+                "description": "This is the subfunction for tool \"cep_brazil\", you can use this tool.The description of this function is: \"Retorna dados endere\u00e7o\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "cepnumber": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "75094080"
+                        }
+                    },
+                    "required": [
+                        "cepnumber"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "get_track_info_for_pridnestrovie_post",
+                "description": "This is the subfunction for tool \"pridnestrovie_post\", you can use this tool.The description of this function is: \"get_track_info_for_pridnestrovie_post by track number\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "track_number": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "RB413450335SG"
+                        }
+                    },
+                    "required": [
+                        "track_number"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "Finish",
+                "description": "If you believe that you have obtained a result that can answer the task, please call this function to provide the final answer. Alternatively, if you recognize that you are unable to proceed with the task in the current state, call this function to restart. Remember: you must ALWAYS call this function at the end of your attempt, and the only part that will be shown to the user is the final answer, so it should contain sufficient information.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "return_type": {
+                            "type": "string",
+                            "enum": [
+                                "give_answer",
+                                "give_up_and_restart"
+                            ]
+                        },
+                        "final_answer": {
+                            "type": "string",
+                            "description": "The final answer you want to give the user. You should have this field if \"return_type\"==\"give_answer\""
+                        }
+                    },
+                    "required": [
+                        "return_type"
+                    ]
+                }
+            }
+        ],
+        "answer": {
+            "method": "DFS",
+            "total_steps": 5,
+            "final_answer": "{\n  \"return_type\": \"give_answer\",\n  \"final_answer\": \"The address details for the postal code 75094080 are Avenida N-003, An\u00e1polis City, An\u00e1polis, GO.\"\n}",
+            "answer_details": [
+                {
+                    "role": "system",
+                    "message": "",
+                    "next": [
+                        {
+                            "role": "user",
+                            "message": "I'm organizing a company event and I need to send out invitations. Can you track the package with th",
+                            "next": [
+                                {
+                                    "role": "tool",
+                                    "message": "{'name': 'get_track_info_for_pridnestrovie_post', 'arguments': '{\\n  \"track_number\": \"RB413450335SG\"",
+                                    "next": [
+                                        {
+                                            "role": "tool",
+                                            "message": "{'name': 'retorna_dados_do_endere_o_atrav_s_do_cep_for_cep_brazil', 'arguments': '{\\n  \"cepnumber\": ",
+                                            "next": [
+                                                {
+                                                    "role": "tool",
+                                                    "message": "{'name': 'Finish', 'arguments': '{\\n  \"return_type\": \"give_answer\",\\n  \"final_answer\": \"The address ",
+                                                    "next": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "127": {
+        "query": "I'm organizing a charity auction and I need to track the delivery of the donated items. Can you give me the tracking details for the package I sent using Pack & Send? The reference number is YZA890. Additionally, I need to check the status of the package I sent through Pridnestrovie Post. The tracking number is RB413450335SG.",
+        "available_tools": [
+            {
+                "name": "api_tracking_for_pack_send",
+                "description": "This is the subfunction for tool \"pack_send\", you can use this tool.The description of this function is: \"If you support your Pack & Send Reference Number, we can provide your with some relevant information.\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "reference": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "ReferenceNumberHere"
+                        }
+                    },
+                    "required": [
+                        "reference"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "get_track_info_for_pridnestrovie_post",
+                "description": "This is the subfunction for tool \"pridnestrovie_post\", you can use this tool.The description of this function is: \"get_track_info_for_pridnestrovie_post by track number\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "track_number": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "RB413450335SG"
+                        }
+                    },
+                    "required": [
+                        "track_number"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "Finish",
+                "description": "If you believe that you have obtained a result that can answer the task, please call this function to provide the final answer. Alternatively, if you recognize that you are unable to proceed with the task in the current state, call this function to restart. Remember: you must ALWAYS call this function at the end of your attempt, and the only part that will be shown to the user is the final answer, so it should contain sufficient information.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "return_type": {
+                            "type": "string",
+                            "enum": [
+                                "give_answer",
+                                "give_up_and_restart"
+                            ]
+                        },
+                        "final_answer": {
+                            "type": "string",
+                            "description": "The final answer you want to give the user. You should have this field if \"return_type\"==\"give_answer\""
+                        }
+                    },
+                    "required": [
+                        "return_type"
+                    ]
+                }
+            }
+        ],
+        "answer": {
+            "method": "DFS",
+            "total_steps": 5,
+            "final_answer": "{\n  \"return_type\": \"give_up_and_restart\"\n}",
+            "answer_details": [
+                {
+                    "role": "system",
+                    "message": "",
+                    "next": [
+                        {
+                            "role": "user",
+                            "message": "I'm organizing a charity auction and I need to track the delivery of the donated items. Can you give",
+                            "next": [
+                                {
+                                    "role": "tool",
+                                    "message": "{'name': 'api_tracking_for_pack_send', 'arguments': '{\\n  \"reference\": \"YZA890\"\\n}', 'response': '{\"",
+                                    "next": [
+                                        {
+                                            "role": "tool",
+                                            "message": "{'name': 'api_tracking_for_pack_send', 'arguments': '{\\n  \"reference\": \"YZA890\"\\n}', 'response': '{\"",
+                                            "next": [
+                                                {
+                                                    "role": "tool",
+                                                    "message": "{'name': 'Finish', 'arguments': '{\\n  \"return_type\": \"give_up_and_restart\"\\n}', 'response': ''}",
+                                                    "next": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "119": {
+        "query": "I'm organizing a family reunion and I want to send invitations to all the relatives. Can you give me the current status of the invitations I sent through Pack & Send? The reference number is ABC456. Additionally, I need to track the package I sent to my cousin through Pridnestrovie Post. The tracking number is RB413450335SG.",
+        "available_tools": [
+            {
+                "name": "api_tracking_for_pack_send",
+                "description": "This is the subfunction for tool \"pack_send\", you can use this tool.The description of this function is: \"If you support your Pack & Send Reference Number, we can provide your with some relevant information.\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "reference": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "ReferenceNumberHere"
+                        }
+                    },
+                    "required": [
+                        "reference"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "get_track_info_for_pridnestrovie_post",
+                "description": "This is the subfunction for tool \"pridnestrovie_post\", you can use this tool.The description of this function is: \"get_track_info_for_pridnestrovie_post by track number\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "track_number": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "RB413450335SG"
+                        }
+                    },
+                    "required": [
+                        "track_number"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "Finish",
+                "description": "If you think you get the result which can answer the task, call this function to give the final answer. Or, if you think you can't handle the task from this status, call this function to restart. Remember: you should ALWAYS call this function at the end of your try, and the final answer is the ONLY part that will be showed to user, so final answer should contain enough information.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "return_type": {
+                            "type": "string",
+                            "enum": [
+                                "give_answer",
+                                "give_up_and_restart"
+                            ]
+                        },
+                        "final_answer": {
+                            "type": "string",
+                            "description": "The final answer you want to give the user. You should have this field if \"return_type\"==\"give_answer\""
+                        }
+                    },
+                    "required": [
+                        "return_type"
+                    ]
+                }
+            }
+        ],
+        "answer": {
+            "method": "DFS",
+            "total_steps": 5,
+            "final_answer": "{\n  \"return_type\": \"give_up_and_restart\"\n}",
+            "answer_details": [
+                {
+                    "role": "system",
+                    "message": "",
+                    "next": [
+                        {
+                            "role": "user",
+                            "message": "I'm organizing a family reunion and I want to send invitations to all the relatives. Can you give me",
+                            "next": [
+                                {
+                                    "role": "tool",
+                                    "message": "{'name': 'api_tracking_for_pack_send', 'arguments': '{\\n  \"reference\": \"ABC456\"\\n}', 'response': '{\"",
+                                    "next": [
+                                        {
+                                            "role": "tool",
+                                            "message": "{'name': 'get_track_info_for_pridnestrovie_post', 'arguments': '{\\n  \"track_number\": \"RB413450335SG\"",
+                                            "next": [
+                                                {
+                                                    "role": "tool",
+                                                    "message": "{'name': 'Finish', 'arguments': '{\\n  \"return_type\": \"give_up_and_restart\"\\n}', 'response': ''}",
+                                                    "next": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "102": {
+        "query": "I need to track a package with the tracking number YT2003521266065328. Can you provide me with the carrier information and the current status? Additionally, I'm looking for a transitaires agency that can handle customs clearance. Thank you for your assistance!",
+        "available_tools": [
+            {
+                "name": "get_track_info_for_pridnestrovie_post",
+                "description": "This is the subfunction for tool \"pridnestrovie_post\", you can use this tool.The description of this function is: \"get_track_info_for_pridnestrovie_post by track number\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "track_number": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "RB413450335SG"
+                        }
+                    },
+                    "required": [
+                        "track_number"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "retorna_dados_do_endere_o_atrav_s_do_cep_for_cep_brazil",
+                "description": "This is the subfunction for tool \"cep_brazil\", you can use this tool.The description of this function is: \"Retorna dados endere\u00e7o\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "cepnumber": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "75094080"
+                        }
+                    },
+                    "required": [
+                        "cepnumber"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "carriers_detect_for_trackingmore_v2",
+                "description": "This is the subfunction for tool \"trackingmore_v2\", you can use this tool.The description of this function is: \"Detect carrier by providing tracking number\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "trackingnumber": {
+                            "type": "string",
+                            "description": "The tracking number of parcel",
+                            "example_value": "YT2003521266065328"
+                        }
+                    },
+                    "required": [
+                        "trackingnumber"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "packages_track_deprecated_for_trackingmore_v2",
+                "description": "This is the subfunction for tool \"trackingmore_v2\", you can use this tool.The description of this function is: \"Get tracking information of specific package\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "carriercode": {
+                            "type": "string",
+                            "description": "Carrier code gotten from .../carriers/list or carriers/detect endpoint",
+                            "example_value": "yunexpress"
+                        },
+                        "trackingnumber": {
+                            "type": "string",
+                            "description": "Tracking number of package",
+                            "example_value": "YT2003521266065328"
+                        },
+                        "lang": {
+                            "type": "string",
+                            "description": "One of the following : en|cn|es|it|ru",
+                            "example_value": "en"
+                        }
+                    },
+                    "required": [
+                        "carriercode",
+                        "trackingnumber"
+                    ],
+                    "optional": [
+                        "lang"
+                    ]
+                }
+            },
+            {
+                "name": "packages_v2_track_for_trackingmore_v2",
+                "description": "This is the subfunction for tool \"trackingmore_v2\", you can use this tool.The description of this function is: \"Get tracking information of specific package\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "trackingnumber": {
+                            "type": "string",
+                            "description": "Tracking number of package",
+                            "example_value": "NY323068698GB"
+                        }
+                    },
+                    "required": [
+                        "trackingnumber"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "transitaire_for_transitaires",
+                "description": "This is the subfunction for tool \"transitaires\", you can use this tool.The description of this function is: \"R\u00e9cup\u00e8re un transitaire donn\u00e9e\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "is_id": {
+                            "type": "string",
+                            "description": "",
+                            "example_value": "DOUANE_AGENCE_GONDRAND"
+                        }
+                    },
+                    "required": [
+                        "is_id"
+                    ],
+                    "optional": []
+                }
+            },
+            {
+                "name": "transitaires_for_transitaires",
+                "description": "This is the subfunction for tool \"transitaires\", you can use this tool.The description of this function is: \"Renvoie tous les transiatires\"",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "optional": []
+                }
+            },
+            {
+                "name": "Finish",
+                "description": "If you think you get the result which can answer the task, call this function to give the final answer. Or, if you think you can't handle the task from this status, call this function to restart. Remember: you should ALWAYS call this function at the end of your try, and the final answer is the ONLY part that will be showed to user, so final answer should contain enough information.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "return_type": {
+                            "type": "string",
+                            "enum": [
+                                "give_answer",
+                                "give_up_and_restart"
+                            ]
+                        },
+                        "final_answer": {
+                            "type": "string",
+                            "description": "The final answer you want to give the user. You should have this field if \"return_type\"==\"give_answer\""
+                        }
+                    },
+                    "required": [
+                        "return_type"
+                    ]
+                }
+            }
+        ],
+        "answer": {
+            "method": "DFS",
+            "total_steps": 6,
+            "final_answer": "{\n  \"return_type\": \"give_answer\",\n  \"final_answer\": \"The package with tracking number YT2003521266065328 is being handled by Yun Express. The current status and destination information are not available at the moment. For customs clearance assistance, you can consider contacting the following transitaires agencies: 1. EKVF - Phone: +687 27.25.92, 2. ACT - Agence Cal\u00e9donienne de Transit - Phone: +687 27.55.48, Email: sales@act.nc, 3. AFL - Agence de Fr\u00eat et Logistique - Phone: +687 26.11.11, Website: www.transportinter.eu, 4. Agence Logistique et Transit Noum\u00e9a - Phone: +687 24.21.85, Website: www.ltn.nc, 5. ATI TRAMAR- Groupe L\u00e9on Vincent - Phone: +687 28.61.25, 6. ATL Lines - DEMLINES - Email: e.fleurence@atl-lines.fr, Website: nouvellecaledonie.demlines.com, 7. BOLLORE LOGISTICS NOUMEA - Website: www.bollore-logistics.com\"\n}",
+            "answer_details": [
+                {
+                    "role": "system",
+                    "message": "",
+                    "next": [
+                        {
+                            "role": "user",
+                            "message": "I need to track a package with the tracking number YT2003521266065328. Can you provide me with the c",
+                            "next": [
+                                {
+                                    "role": "tool",
+                                    "message": "{'name': 'carriers_detect_for_trackingmore_v2', 'arguments': '{\\n  \"trackingnumber\": \"YT200352126606",
+                                    "next": [
+                                        {
+                                            "role": "tool",
+                                            "message": "{'name': 'packages_v2_track_for_trackingmore_v2', 'arguments': '{\\n  \"trackingnumber\": \"YT2003521266",
+                                            "next": [
+                                                {
+                                                    "role": "tool",
+                                                    "message": "{'name': 'transitaires_for_transitaires', 'arguments': '{}', 'response': '{\"error\": \"\", \"response\": ",
+                                                    "next": [
+                                                        {
+                                                            "role": "tool",
+                                                            "message": "{'name': 'Finish', 'arguments': '{\\n  \"return_type\": \"give_answer\",\\n  \"final_answer\": \"The package ",
+                                                            "next": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
