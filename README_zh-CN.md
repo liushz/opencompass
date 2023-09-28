@@ -18,7 +18,7 @@
 </div>
 
 <p align="center">
-    👋 加入我们的<a href="https://twitter.com/intern_lm" target="_blank">推特</a>、<a href="https://discord.gg/xa29JuW87d" target="_blank">Discord</a> 和 <a href="https://r.vansin.top/?r=internwx" target="_blank">微信社区</a>
+    👋 加入我们的 <a href="https://discord.gg/KKwfEbFj7U" target="_blank">Discord</a> 和 <a href="https://r.vansin.top/?r=opencompass" target="_blank">微信社区</a>
 </p>
 
 ## 🧭	欢迎
@@ -27,19 +27,22 @@
 
 就像指南针在我们的旅程中为我们导航一样，我们希望OpenCompass能够帮助你穿越评估大型语言模型的重重迷雾。OpenCompass提供丰富的算法和功能支持，期待OpenCompass能够帮助社区更便捷地对NLP模型的性能进行公平全面的评估。
 
+> **🔥 注意**<br />
+> 我们正式启动 OpenCompass 共建计划，诚邀社区用户为 OpenCompass 提供更具代表性和可信度的客观评测数据集!
+> 点击 [Issue](https://github.com/InternLM/opencompass/issues/248) 获取更多数据集.
+> 让我们携手共进，打造功能强大易用的大模型评测平台！
+
 ## 🚀 最新进展 <a><img width="35" height="20" src="https://user-images.githubusercontent.com/12782558/212848161-5e783dd6-11e8-4fe0-bbba-39ffb77730be.png"></a>
 
+- **\[2023.08.25\]**  欢迎 [**TigerBot**](https://github.com/TigerResearch/TigerBot) 团队采用OpenCompass对模型进行系统评估。我们非常感谢社区在提升LLM评估的透明度和可复现性上所做的努力。
+  🔥🔥🔥.
 - **\[2023.08.21\]** [**Lagent**](https://github.com/InternLM/lagent) 正式发布，它是一个轻量级、开源的基于大语言模型的智能体（agent）框架。我们正与Lagent团队紧密合作，推进支持基于Lagent的大模型工具能力评测 ! 🔥🔥🔥.
-- **\[2023.08.18\]** OpenCompass现已支持**多模态评测**，支持10+多模态评测数据集，包括 **MMBench, SEED-Bench, COCO-Caption, Flickr-30K, OCR-VQA, ScienceQA** 等. 多模态评测榜单即将上线，敬请! 🔥🔥🔥.
+- **\[2023.08.18\]** OpenCompass现已支持**多模态评测**，支持10+多模态评测数据集，包括 **MMBench, SEED-Bench, COCO-Caption, Flickr-30K, OCR-VQA, ScienceQA** 等. 多模态评测榜单即将上线，敬请期待!
 - **\[2023.08.18\]** [数据集页面](https://opencompass.org.cn/dataset-detail/MMLU) 现已在OpenCompass官网上线，欢迎更多社区评测数据集加入OpenCompass !
 - **\[2023.08.11\]** 官网榜单上新增了[模型对比](https://opencompass.org.cn/model-compare/GPT-4,ChatGPT,LLaMA-2-70B,LLaMA-65B)功能，希望该功能可以协助提供更多发现！
 - **\[2023.08.11\]** 新增了 [LEval](https://github.com/OpenLMLab/LEval) 评测支持.
-- **\[2023.08.10\]** OpenCompass 现已适配 [LMDeploy](https://github.com/InternLM/lmdeploy). 请参考 [评测指南](https://opencompass.readthedocs.io/zh_CN/latest/advanced_guides/evaluation_turbomind.html) 对 **Turbomind** 加速后的模型进行评估.
-- **\[2023.08.10\]**  [Qwen-7B](https://github.com/QwenLM/Qwen-7B) 和 [XVERSE-13B](https://github.com/xverse-ai/XVERSE-13B)的评测结果已更新在 OpenCompass [大语言模型评测榜单](https://opencompass.org.cn/leaderboard-llm)!
-- **\[2023.08.09\]** 更新更多评测数据集(**CMMLU, TydiQA, SQuAD2.0, DROP**) ，请登录 [大语言模型评测榜单](https://opencompass.org.cn/leaderboard-llm) 查看更多结果! 欢迎添加你的评测数据集到OpenCompass.
-- **\[2023.08.07\]** 新增了 [MMBench 评测脚本](tools/eval_mmbench.py) 以支持用户自行获取 [MMBench](https://opencompass.org.cn/MMBench)-dev 的测试结果.
-- **\[2023.08.05\]** [GPT-4](https://openai.com/gpt-4) 的评测结果已更新在 OpenCompass [大语言模型评测榜单](https://opencompass.org.cn/leaderboard-llm)!
-- **\[2023.07.27\]** 新增了 [CMMLU](https://github.com/haonan-li/CMMLU)! 欢迎更多的数据集加入 OpenCompass.
+
+> [更多](docs/zh_cn/notes/news.md)
 
 ## ✨ 介绍
 
@@ -323,7 +326,36 @@ unzip OpenCompassData.zip
 
 ## 🏗️ ️评测
 
-确保按照上述步骤正确安装 OpenCompass 并准备好数据集后，请阅读[快速上手](https://opencompass.readthedocs.io/zh_CN/latest/get_started.html#id3)了解如何运行一个评测任务。
+确保按照上述步骤正确安装 OpenCompass 并准备好数据集后，可以通过以下命令评测 LLaMA-7b 模型在 MMLU 和 C-Eval 数据集上的性能：
+
+```bash
+python run.py --models hf_llama_7b --datasets mmlu_ppl ceval_ppl
+```
+
+OpenCompass 预定义了许多模型和数据集的配置，你可以通过 [工具](./docs/zh_cn/tools.md#ListConfigs) 列出所有可用的模型和数据集配置。
+
+```bash
+# 列出所有配置
+python tools/list_configs.py
+# 列出所有跟 llama 及 mmlu 相关的配置
+python tools/list_configs.py llama mmlu
+```
+
+你也可以通过命令行去评测其它 HuggingFace 模型。同样以 LLaMA-7b 为例：
+
+```bash
+python run.py --datasets ceval_ppl mmlu_ppl \
+--hf-path huggyllama/llama-7b \  # HuggingFace 模型地址
+--model-kwargs device_map='auto' \  # 构造 model 的参数
+--tokenizer-kwargs padding_side='left' truncation='left' use_fast=False \  # 构造 tokenizer 的参数
+--max-out-len 100 \  # 最长生成 token 数
+--max-seq-len 2048 \  # 模型能接受的最大序列长度
+--batch-size 8 \  # 批次大小
+--no-batch-padding \  # 不打开 batch padding，通过 for loop 推理，避免精度损失
+--num-gpus 1  # 所需 gpu 数
+```
+
+通过命令行或配置文件，OpenCompass 还支持评测 API 或自定义模型，以及更多样化的评测策略。请阅读[快速上手](https://opencompass.readthedocs.io/zh_CN/latest/get_started.html#id3)了解如何运行一个评测任务。
 
 更多教程请查看我们的[文档](https://opencompass.readthedocs.io/zh_CN/latest/index.html)。
 
