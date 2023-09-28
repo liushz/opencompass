@@ -8,9 +8,9 @@ from opencompass.utils.text_postprocessors import first_capital_postprocess
 
 single_choice_prompts = {
     "single_choice_cn_with_reasoning": "以下是一道关于数学的单项选择题，请你一步一步推理并得到最终的答案选项。回答格式为如下：\n答案选项：A、B、C、D中你认为正确的一个选项\n计算过程：根据题目得到选项答案的一步步过程\n请严格按照上面的格式回答问题，下面是你要回答的题目：\n{question}\n答案选项：",
-    "single_choice_cn": "以下是一道关于数学的单项选择题，请你直接给出正确的答案选项。回答格式为如下：\n答案选项：A、B、C、D中你认为正确的选项\n下面是你要回答的题目：\n{question}\n答案选项：",
+    "single_choice_cn": "以下是一道关于数学的单项选择题，请你给出正确的答案选项。\n下面是你要回答的题目：\n{question}\n答案选项：",
     "single_choice_en_with_reasoning": "Here is a multiple-choice question about mathematics. Please provide the final answer option by step-by-step reasoning. Please answer in the following format:\nAnswer option: A, B, C, or D (the option you believe is correct)\nCalculation process: Step-by-step process to derive the answer option based on the question\nPlease strictly follow the above format to answer the question. Here is the question you need to answer:\n{question}\nAnswer option:",
-    "single_choice_en": "Here is a multiple-choice question about mathematics. Please provide the correct answer option directly. Please answer in the following format:\nAnswer option: A, B, C, or D (the option you believe is correct)\nHere is the question you need to answer:\n{question}\nAnswer option:",
+    "single_choice_en": "Here is a multiple-choice question about mathematics. Please provide the correct answer option directly.\nHere is the question you need to answer:\n{question}\nAnswer option:",
 }
 
 cloze_prompts ={
@@ -65,7 +65,7 @@ mathbench_sets = {
 }
 
 # Generate reasoning path if set True or just generate the final answer
-with_reasoning = True
+with_reasoning = False
 
 # Use circular evaluation or not
 with_circular_eval = True
@@ -74,7 +74,11 @@ with_circular_eval = True
 mathbench_datasets = []
 
 for _split in list(mathbench_sets.keys()):
+    if _split != 'college':
+        continue
     for _name in mathbench_sets[_split]:
+        if 'cloze' in _name:
+            continue
         mathbench_infer_cfg = dict(
             ice_template=dict(
                 type=PromptTemplate,
@@ -83,7 +87,7 @@ for _split in list(mathbench_sets.keys()):
                     round=[
                         dict(
                             role="HUMAN",
-                            prompt= single_choice_prompts[_name + "_with_reasoning"] if with_reasoning else mathbench_sets[_name],
+                            prompt= single_choice_prompts[_name + "_with_reasoning"] if with_reasoning else single_choice_prompts[_name],
                         ),
                         dict(role="BOT", prompt="{answer}"),] if 'choice' in _name else cloze_prompts[_name],
                     ),
