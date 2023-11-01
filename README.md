@@ -4,14 +4,14 @@
   <br />
 
 [![docs](https://readthedocs.org/projects/opencompass/badge)](https://opencompass.readthedocs.io/en)
-[![license](https://img.shields.io/github/license/InternLM/opencompass.svg)](https://github.com/InternLM/opencompass/blob/main/LICENSE)
+[![license](https://img.shields.io/github/license/InternLM/opencompass.svg)](https://github.com/open-compass/opencompass/blob/main/LICENSE)
 
 <!-- [![PyPI](https://badge.fury.io/py/opencompass.svg)](https://pypi.org/project/opencompass/) -->
 
 [🌐Website](https://opencompass.org.cn/) |
 [📘Documentation](https://opencompass.readthedocs.io/en/latest/) |
 [🛠️Installation](https://opencompass.readthedocs.io/en/latest/get_started.html#installation) |
-[🤔Reporting Issues](https://github.com/InternLM/opencompass/issues/new/choose)
+[🤔Reporting Issues](https://github.com/open-compass/opencompass/issues/new/choose)
 
 English | [简体中文](README_zh-CN.md)
 
@@ -29,25 +29,30 @@ Just like a compass guides us on our journey, OpenCompass will guide you through
 
 > **🔥 Attention**<br />
 > We launch the OpenCompass Collabration project, welcome to support diverse evaluation benchmarks into OpenCompass!
-> Clike [Issue](https://github.com/InternLM/opencompass/issues/248) for more information.
+> Clike [Issue](https://github.com/open-compass/opencompass/issues/248) for more information.
 > Let's work together to build a more powerful OpenCompass toolkit!
 
 ## 🚀 What's New <a><img width="35" height="20" src="https://user-images.githubusercontent.com/12782558/212848161-5e783dd6-11e8-4fe0-bbba-39ffb77730be.png"></a>
 
+- **\[2023.09.26\]** We update the leaderboard with [Qwen](https://github.com/QwenLM/Qwen), one of the best-performing open-source models currently available, welcome to our [homepage](https://opencompass.org.cn) for more details. 🔥🔥🔥.
+- **\[2023.09.20\]** We update the leaderboard with [InternLM-20B](https://github.com/InternLM/InternLM), welcome to our [homepage](https://opencompass.org.cn) for more details. 🔥🔥🔥.
+- **\[2023.09.19\]** We update the leaderboard with WeMix-LLaMA2-70B/Phi-1.5-1.3B, welcome to our [homepage](https://opencompass.org.cn) for more details.
+- **\[2023.09.18\]** We have released [long context evaluation guidance](docs/en/advanced_guides/longeval.md).
+- **\[2023.09.08\]** We update the leaderboard with Baichuan-2/Tigerbot-2/Vicuna-v1.5, welcome to our [homepage](https://opencompass.org.cn) for more details.
+- **\[2023.09.06\]**  [**Baichuan2**](https://github.com/baichuan-inc/Baichuan2) team adpots OpenCompass to evaluate their models systematically. We deeply appreciate the community's dedication to transparency and reproducibility in LLM evaluation.
+- **\[2023.09.02\]** We have supported the evaluation of [Qwen-VL](https://github.com/QwenLM/Qwen-VL) in OpenCompass.
 - **\[2023.08.25\]**  [**TigerBot**](https://github.com/TigerResearch/TigerBot) team adpots OpenCompass to evaluate their models systematically. We deeply appreciate the community's dedication to transparency and reproducibility in LLM evaluation.
-- **\[2023.08.21\]** [**Lagent**](https://github.com/InternLM/lagent) has been released, which is a lightweight framework for building LLM-based agents. We are working with Lagent team to support the evaluation of general tool-use capability, stay tuned! 🔥🔥🔥.
-- **\[2023.08.18\]** We have supported evaluation for **multi-modality learning**, include **MMBench, SEED-Bench, COCO-Caption, Flickr-30K, OCR-VQA, ScienceQA** and so on. Leaderboard is on the road. Feel free to try multi-modality evaluation with  OpenCompass ! 🔥🔥🔥.
-- **\[2023.08.18\]** [Dataset card](https://opencompass.org.cn/dataset-detail/MMLU) is now online. Welcome new evaluation benchmark  OpenCompass !
-- **\[2023.08.11\]** [Model comparison](https://opencompass.org.cn/model-compare/GPT-4,ChatGPT,LLaMA-2-70B,LLaMA-65B) is now online. We hope this feature offers deeper insights!
-- **\[2023.08.11\]** We have supported [LEval](https://github.com/OpenLMLab/LEval).
+- **\[2023.08.21\]** [**Lagent**](https://github.com/InternLM/lagent) has been released, which is a lightweight framework for building LLM-based agents. We are working with Lagent team to support the evaluation of general tool-use capability, stay tuned!
 
 > [More](docs/en/notes/news.md)
 
 ## ✨ Introduction
 
+![image](https://github.com/open-compass/opencompass/assets/22607038/f45fe125-4aed-4f8c-8fe8-df4efb41a8ea)
+
 OpenCompass is a one-stop platform for large model evaluation, aiming to provide a fair, open, and reproducible benchmark for large model evaluation. Its main features includes:
 
-- **Comprehensive support for models and datasets**: Pre-support for 20+ HuggingFace and API models, a model evaluation scheme of 50+ datasets with about 300,000 questions, comprehensively evaluating the capabilities of the models in five dimensions.
+- **Comprehensive support for models and datasets**: Pre-support for 20+ HuggingFace and API models, a model evaluation scheme of 70+ datasets with about 400,000 questions, comprehensively evaluating the capabilities of the models in five dimensions.
 
 - **Efficient distributed evaluation**: One line command to implement task division and distributed evaluation, completing the full evaluation of billion-scale models in just a few hours.
 
@@ -63,247 +68,6 @@ We provide [OpenCompass Leaderbaord](https://opencompass.org.cn/rank) for commun
 
 <p align="right"><a href="#top">🔝Back to top</a></p>
 
-## 📖 Dataset Support
-
-<table align="center">
-  <tbody>
-    <tr align="center" valign="bottom">
-      <td>
-        <b>Language</b>
-      </td>
-      <td>
-        <b>Knowledge</b>
-      </td>
-      <td>
-        <b>Reasoning</b>
-      </td>
-      <td>
-        <b>Comprehensive Examination</b>
-      </td>
-      <td>
-        <b>Understanding</b>
-      </td>
-    </tr>
-    <tr valign="top">
-      <td>
-<details open>
-<summary><b>Word Definition</b></summary>
-
-- WiC
-- SummEdits
-
-</details>
-
-<details open>
-<summary><b>Idiom Learning</b></summary>
-
-- CHID
-
-</details>
-
-<details open>
-<summary><b>Semantic Similarity</b></summary>
-
-- AFQMC
-- BUSTM
-
-</details>
-
-<details open>
-<summary><b>Coreference Resolution</b></summary>
-
-- CLUEWSC
-- WSC
-- WinoGrande
-
-</details>
-
-<details open>
-<summary><b>Translation</b></summary>
-
-- Flores
-
-</details>
-      </td>
-      <td>
-<details open>
-<summary><b>Knowledge Question Answering</b></summary>
-
-- BoolQ
-- CommonSenseQA
-- NaturalQuestion
-- TrivialQA
-
-</details>
-
-<details open>
-<summary><b>Multi-language Question Answering</b></summary>
-
-- TyDi-QA
-
-</details>
-      </td>
-      <td>
-<details open>
-<summary><b>Textual Entailment</b></summary>
-
-- CMNLI
-- OCNLI
-- OCNLI_FC
-- AX-b
-- AX-g
-- CB
-- RTE
-
-</details>
-
-<details open>
-<summary><b>Commonsense Reasoning</b></summary>
-
-- StoryCloze
-- StoryCloze-CN (coming soon)
-- COPA
-- ReCoRD
-- HellaSwag
-- PIQA
-- SIQA
-
-</details>
-
-<details open>
-<summary><b>Mathematical Reasoning</b></summary>
-
-- MATH
-- GSM8K
-
-</details>
-
-<details open>
-<summary><b>Theorem Application</b></summary>
-
-- TheoremQA
-
-</details>
-
-<details open>
-<summary><b>Code</b></summary>
-
-- HumanEval
-- MBPP
-
-</details>
-
-<details open>
-<summary><b>Comprehensive Reasoning</b></summary>
-
-- BBH
-
-</details>
-      </td>
-      <td>
-<details open>
-<summary><b>Junior High, High School, University, Professional Examinations</b></summary>
-
-- GAOKAO-2023
-- CEval
-- AGIEval
-- MMLU
-- GAOKAO-Bench
-- CMMLU
-- ARC
-
-</details>
-      </td>
-      <td>
-<details open>
-<summary><b>Reading Comprehension</b></summary>
-
-- C3
-- CMRC
-- DRCD
-- MultiRC
-- RACE
-
-</details>
-
-<details open>
-<summary><b>Content Summary</b></summary>
-
-- CSL
-- LCSTS
-- XSum
-
-</details>
-
-<details open>
-<summary><b>Content Analysis</b></summary>
-
-- EPRSTMT
-- LAMBADA
-- TNEWS
-
-</details>
-      </td>
-    </tr>
-</td>
-    </tr>
-  </tbody>
-</table>
-
-<p align="right"><a href="#top">🔝Back to top</a></p>
-
-## 📖 Model Support
-
-<table align="center">
-  <tbody>
-    <tr align="center" valign="bottom">
-      <td>
-        <b>Open-source Models</b>
-      </td>
-      <td>
-        <b>API Models</b>
-      </td>
-      <!-- <td>
-        <b>Custom Models</b>
-      </td> -->
-    </tr>
-    <tr valign="top">
-      <td>
-
-- InternLM
-- LLaMA
-- Vicuna
-- Alpaca
-- Baichuan
-- WizardLM
-- ChatGLM-6B
-- ChatGLM2-6B
-- MPT
-- Falcon
-- TigerBot
-- MOSS
-- ...
-
-</td>
-<td>
-
-- OpenAI
-- Claude (coming soon)
-- PaLM (coming soon)
-- ……
-
-</td>
-
-<!--
-- GLM
-- ...
-
-</td> -->
-
-</tr>
-  </tbody>
-</table>
-
 ## 🛠️ Installation
 
 Below are the steps for quick installation and datasets preparation.
@@ -311,11 +75,11 @@ Below are the steps for quick installation and datasets preparation.
 ```Python
 conda create --name opencompass python=3.10 pytorch torchvision pytorch-cuda -c nvidia -c pytorch -y
 conda activate opencompass
-git clone https://github.com/InternLM/opencompass opencompass
+git clone https://github.com/open-compass/opencompass opencompass
 cd opencompass
 pip install -e .
 # Download dataset to data/ folder
-wget https://github.com/InternLM/opencompass/releases/download/0.1.1/OpenCompassData.zip
+wget https://github.com/open-compass/opencompass/releases/download/0.1.1/OpenCompassData.zip
 unzip OpenCompassData.zip
 ```
 
@@ -356,6 +120,316 @@ python run.py --datasets ceval_ppl mmlu_ppl \
 
 Through the command line or configuration files, OpenCompass also supports evaluating APIs or custom models, as well as more diversified evaluation strategies. Please read the [Quick Start](https://opencompass.readthedocs.io/en/latest/get_started.html) to learn how to run an evaluation task.
 
+<p align="right"><a href="#top">🔝Back to top</a></p>
+
+## 📖 Dataset Support
+
+<table align="center">
+  <tbody>
+    <tr align="center" valign="bottom">
+      <td>
+        <b>Language</b>
+      </td>
+      <td>
+        <b>Knowledge</b>
+      </td>
+      <td>
+        <b>Reasoning</b>
+      </td>
+      <td>
+        <b>Examination</b>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td>
+<details open>
+<summary><b>Word Definition</b></summary>
+
+- WiC
+- SummEdits
+
+</details>
+
+<details open>
+<summary><b>Idiom Learning</b></summary>
+
+- CHID
+
+</details>
+
+<details open>
+<summary><b>Semantic Similarity</b></summary>
+
+- AFQMC
+- BUSTM
+
+</details>
+
+<details open>
+<summary><b>Coreference Resolution</b></summary>
+
+- CLUEWSC
+- WSC
+- WinoGrande
+
+</details>
+
+<details open>
+<summary><b>Translation</b></summary>
+
+- Flores
+- IWSLT2017
+
+</details>
+
+<details open>
+<summary><b>Multi-language Question Answering</b></summary>
+
+- TyDi-QA
+- XCOPA
+
+</details>
+
+<details open>
+<summary><b>Multi-language Summary</b></summary>
+
+- XLSum
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>Knowledge Question Answering</b></summary>
+
+- BoolQ
+- CommonSenseQA
+- NaturalQuestions
+- TriviaQA
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>Textual Entailment</b></summary>
+
+- CMNLI
+- OCNLI
+- OCNLI_FC
+- AX-b
+- AX-g
+- CB
+- RTE
+- ANLI
+
+</details>
+
+<details open>
+<summary><b>Commonsense Reasoning</b></summary>
+
+- StoryCloze
+- COPA
+- ReCoRD
+- HellaSwag
+- PIQA
+- SIQA
+
+</details>
+
+<details open>
+<summary><b>Mathematical Reasoning</b></summary>
+
+- MATH
+- GSM8K
+
+</details>
+
+<details open>
+<summary><b>Theorem Application</b></summary>
+
+- TheoremQA
+- StrategyQA
+- SciBench
+
+</details>
+
+<details open>
+<summary><b>Comprehensive Reasoning</b></summary>
+
+- BBH
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>Junior High, High School, University, Professional Examinations</b></summary>
+
+- C-Eval
+- AGIEval
+- MMLU
+- GAOKAO-Bench
+- CMMLU
+- ARC
+- Xiezhi
+
+</details>
+
+<details open>
+<summary><b>Medical Examinations</b></summary>
+
+- CMB
+
+</details>
+      </td>
+    </tr>
+</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr align="center" valign="bottom">
+      <td>
+        <b>Understanding</b>
+      </td>
+      <td>
+        <b>Long Context</b>
+      </td>
+      <td>
+        <b>Safety</b>
+      </td>
+      <td>
+        <b>Code</b>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td>
+<details open>
+<summary><b>Reading Comprehension</b></summary>
+
+- C3
+- CMRC
+- DRCD
+- MultiRC
+- RACE
+- DROP
+- OpenBookQA
+- SQuAD2.0
+
+</details>
+
+<details open>
+<summary><b>Content Summary</b></summary>
+
+- CSL
+- LCSTS
+- XSum
+- SummScreen
+
+</details>
+
+<details open>
+<summary><b>Content Analysis</b></summary>
+
+- EPRSTMT
+- LAMBADA
+- TNEWS
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>Long Context Understanding</b></summary>
+
+- LEval
+- LongBench
+- GovReports
+- NarrativeQA
+- Qasper
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>Safety</b></summary>
+
+- CivilComments
+- CrowsPairs
+- CValues
+- JigsawMultilingual
+- TruthfulQA
+
+</details>
+<details open>
+<summary><b>Robustness</b></summary>
+
+- AdvGLUE
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>Code</b></summary>
+
+- HumanEval
+- HumanEvalX
+- MBPP
+- APPs
+- DS1000
+
+</details>
+      </td>
+    </tr>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p align="right"><a href="#top">🔝Back to top</a></p>
+
+## 📖 Model Support
+
+<table align="center">
+  <tbody>
+    <tr align="center" valign="bottom">
+      <td>
+        <b>Open-source Models</b>
+      </td>
+      <td>
+        <b>API Models</b>
+      </td>
+      <!-- <td>
+        <b>Custom Models</b>
+      </td> -->
+    </tr>
+    <tr valign="top">
+      <td>
+
+- InternLM
+- LLaMA
+- Vicuna
+- Alpaca
+- Baichuan
+- WizardLM
+- ChatGLM2
+- Falcon
+- TigerBot
+- Qwen
+- ...
+
+</td>
+<td>
+
+- OpenAI
+- Claude
+- PaLM (coming soon)
+- ……
+
+</td>
+
+</tr>
+  </tbody>
+</table>
+
+<p align="right"><a href="#top">🔝Back to top</a></p>
+
 ## 🔜 Roadmap
 
 - [ ] Subjective Evaluation
@@ -389,7 +463,7 @@ Some datasets and prompt implementations are modified from [chain-of-thought-hub
 @misc{2023opencompass,
     title={OpenCompass: A Universal Evaluation Platform for Foundation Models},
     author={OpenCompass Contributors},
-    howpublished = {\url{https://github.com/InternLM/OpenCompass}},
+    howpublished = {\url{https://github.com/open-compass/opencompass}},
     year={2023}
 }
 ```

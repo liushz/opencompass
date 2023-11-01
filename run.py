@@ -38,9 +38,10 @@ def parse_args():
                         help='Whether or not enable multimodal evaluation',
                         action='store_true',
                         default=False)
-    # Add shortcut parameters (models and datasets)
+    # Add shortcut parameters (models, datasets and summarizer)
     parser.add_argument('--models', nargs='+', help='', default=None)
     parser.add_argument('--datasets', nargs='+', help='', default=None)
+    parser.add_argument('--summarizer', help='', default=None)
     # add general args
     parser.add_argument('--debug',
                         help='Debug mode, in which scheduler will run tasks '
@@ -82,6 +83,12 @@ def parse_args():
                         './outputs/default.',
                         default=None,
                         type=str)
+    parser.add_argument(
+        '--config-dir',
+        default='configs',
+        help='Use the custom config directory instead of config/ to '
+        'search the configs for datasets, models and summarizers',
+        type=str)
     parser.add_argument('-l',
                         '--lark',
                         help='Report the running status to lark bot',
@@ -266,6 +273,11 @@ def main():
         if args.dry_run:
             return
         runner = RUNNERS.build(cfg.infer.runner)
+        # Add extra attack config if exists
+        if hasattr(cfg, 'attack'):
+            for task in tasks:
+                cfg.attack.dataset = task.datasets[0][0].abbr
+                task.attack = cfg.attack
         runner(tasks)
 
     # evaluate
@@ -283,7 +295,7 @@ def main():
             fill_eval_cfg(cfg, args)
 
         if args.partition is not None:
-            if RUNNERS.get(cfg.infer.runner.type) == SlurmRunner:
+            if RUNNERS.get(cfg.eval.runner.type) == SlurmRunner:
                 cfg.eval.runner.partition = args.partition
                 cfg.eval.runner.quotatype = args.quotatype
             else:

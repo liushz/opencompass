@@ -1,3 +1,4 @@
+import os
 from typing import List, Union
 
 import tabulate
@@ -60,7 +61,8 @@ def get_config_from_arg(args) -> Config:
         raise ValueError('You must specify "--datasets" if you do not specify '
                          'a config file path.')
     datasets = []
-    for dataset in match_cfg_file('configs/datasets/', args.datasets):
+    datasets_dir = os.path.join(args.config_dir, 'datasets')
+    for dataset in match_cfg_file(datasets_dir, args.datasets):
         get_logger().info(f'Loading {dataset[0]}: {dataset[1]}')
         cfg = Config.fromfile(dataset[1])
         for k in cfg.keys():
@@ -73,7 +75,8 @@ def get_config_from_arg(args) -> Config:
                          '--datasets.')
     models = []
     if args.models:
-        for model in match_cfg_file('configs/models/', args.models):
+        model_dir = os.path.join(args.config_dir, 'models')
+        for model in match_cfg_file(model_dir, args.models):
             get_logger().info(f'Loading {model[0]}: {model[1]}')
             cfg = Config.fromfile(model[1])
             if 'models' not in cfg:
@@ -95,7 +98,17 @@ def get_config_from_arg(args) -> Config:
                      pad_token_id=args.pad_token_id,
                      run_cfg=dict(num_gpus=args.num_gpus))
         models.append(model)
-    return Config(dict(models=models, datasets=datasets),
+
+    summarizer = None
+    if args.summarizer:
+        summarizers_dir = os.path.join(args.config_dir, 'summarizers')
+        s = match_cfg_file(summarizers_dir, [args.summarizer])[0]
+        get_logger().info(f'Loading {s[0]}: {s[1]}')
+        cfg = Config.fromfile(s[1])
+        summarizer = cfg['summarizer']
+
+    return Config(dict(models=models, datasets=datasets,
+                       summarizer=summarizer),
                   format_python_code=False)
 
 

@@ -4,14 +4,14 @@
   <br />
 
 [![docs](https://readthedocs.org/projects/opencompass/badge)](https://opencompass.readthedocs.io/zh_CN)
-[![license](https://img.shields.io/github/license/InternLM/opencompass.svg)](https://github.com/InternLM/opencompass/blob/main/LICENSE)
+[![license](https://img.shields.io/github/license/InternLM/opencompass.svg)](https://github.com/open-compass/opencompass/blob/main/LICENSE)
 
 <!-- [![PyPI](https://badge.fury.io/py/opencompass.svg)](https://pypi.org/project/opencompass/) -->
 
 [🌐Website](https://opencompass.org.cn/) |
 [📘Documentation](https://opencompass.readthedocs.io/zh_CN/latest/index.html) |
 [🛠️Installation](https://opencompass.readthedocs.io/zh_CN/latest/get_started.html#id1) |
-[🤔Reporting Issues](https://github.com/InternLM/opencompass/issues/new/choose)
+[🤔Reporting Issues](https://github.com/open-compass/opencompass/issues/new/choose)
 
 [English](/README.md) | 简体中文
 
@@ -29,28 +29,32 @@
 
 > **🔥 注意**<br />
 > 我们正式启动 OpenCompass 共建计划，诚邀社区用户为 OpenCompass 提供更具代表性和可信度的客观评测数据集!
-> 点击 [Issue](https://github.com/InternLM/opencompass/issues/248) 获取更多数据集.
+> 点击 [Issue](https://github.com/open-compass/opencompass/issues/248) 获取更多数据集.
 > 让我们携手共进，打造功能强大易用的大模型评测平台！
 
 ## 🚀 最新进展 <a><img width="35" height="20" src="https://user-images.githubusercontent.com/12782558/212848161-5e783dd6-11e8-4fe0-bbba-39ffb77730be.png"></a>
 
-- **\[2023.08.25\]**  欢迎 [**TigerBot**](https://github.com/TigerResearch/TigerBot) 团队采用OpenCompass对模型进行系统评估。我们非常感谢社区在提升LLM评估的透明度和可复现性上所做的努力。
-  🔥🔥🔥.
-- **\[2023.08.21\]** [**Lagent**](https://github.com/InternLM/lagent) 正式发布，它是一个轻量级、开源的基于大语言模型的智能体（agent）框架。我们正与Lagent团队紧密合作，推进支持基于Lagent的大模型工具能力评测 ! 🔥🔥🔥.
-- **\[2023.08.18\]** OpenCompass现已支持**多模态评测**，支持10+多模态评测数据集，包括 **MMBench, SEED-Bench, COCO-Caption, Flickr-30K, OCR-VQA, ScienceQA** 等. 多模态评测榜单即将上线，敬请期待!
-- **\[2023.08.18\]** [数据集页面](https://opencompass.org.cn/dataset-detail/MMLU) 现已在OpenCompass官网上线，欢迎更多社区评测数据集加入OpenCompass !
-- **\[2023.08.11\]** 官网榜单上新增了[模型对比](https://opencompass.org.cn/model-compare/GPT-4,ChatGPT,LLaMA-2-70B,LLaMA-65B)功能，希望该功能可以协助提供更多发现！
-- **\[2023.08.11\]** 新增了 [LEval](https://github.com/OpenLMLab/LEval) 评测支持.
+- **\[2023.09.26\]** 我们在评测榜单上更新了[Qwen](https://github.com/QwenLM/Qwen), 这是目前表现最好的开源模型之一, 欢迎访问[官方网站](https://opencompass.org.cn)获取详情.🔥🔥🔥.
+- **\[2023.09.20\]** 我们在评测榜单上更新了[InternLM-20B](https://github.com/InternLM/InternLM), 欢迎访问[官方网站](https://opencompass.org.cn)获取详情.🔥🔥🔥.
+- **\[2023.09.19\]** 我们在评测榜单上更新了WeMix-LLaMA2-70B/Phi-1.5-1.3B, 欢迎访问[官方网站](https://opencompass.org.cn)获取详情.
+- **\[2023.09.18\]** 我们发布了[长文本评测指引](docs/zh_cn/advanced_guides/longeval.md).
+- **\[2023.09.08\]** 我们在评测榜单上更新了Baichuan-2/Tigerbot-2/Vicuna-v1.5, 欢迎访问[官方网站](https://opencompass.org.cn)获取详情。
+- **\[2023.09.06\]** 欢迎 [**Baichuan2**](https://github.com/baichuan-inc/Baichuan2) 团队采用OpenCompass对模型进行系统评估。我们非常感谢社区在提升LLM评估的透明度和可复现性上所做的努力。
+- **\[2023.09.02\]** 我们加入了[Qwen-VL](https://github.com/QwenLM/Qwen-VL)的评测支持。
+- **\[2023.08.25\]** 欢迎 [**TigerBot**](https://github.com/TigerResearch/TigerBot) 团队采用OpenCompass对模型进行系统评估。我们非常感谢社区在提升LLM评估的透明度和可复现性上所做的努力。
+- **\[2023.08.21\]** [**Lagent**](https://github.com/InternLM/lagent) 正式发布，它是一个轻量级、开源的基于大语言模型的智能体（agent）框架。我们正与Lagent团队紧密合作，推进支持基于Lagent的大模型工具能力评测 !
 
 > [更多](docs/zh_cn/notes/news.md)
 
 ## ✨ 介绍
 
+![image](https://github.com/open-compass/opencompass/assets/22607038/30bcb2e2-3969-4ac5-9f29-ad3f4abb4f3b)
+
 OpenCompass 是面向大模型评测的一站式平台。其主要特点如下：
 
 - **开源可复现**：提供公平、公开、可复现的大模型评测方案
 
-- **全面的能力维度**：五大维度设计，提供 50+ 个数据集约 30 万题的的模型评测方案，全面评估模型能力
+- **全面的能力维度**：五大维度设计，提供 70+ 个数据集约 40 万题的的模型评测方案，全面评估模型能力
 
 - **丰富的模型支持**：已支持 20+ HuggingFace 及 API 模型
 
@@ -66,245 +70,6 @@ OpenCompass 是面向大模型评测的一站式平台。其主要特点如下�
 
 <p align="right"><a href="#top">🔝返回顶部</a></p>
 
-## 📖 数据集支持
-
-<table align="center">
-  <tbody>
-    <tr align="center" valign="bottom">
-      <td>
-        <b>语言</b>
-      </td>
-      <td>
-        <b>知识</b>
-      </td>
-      <td>
-        <b>推理</b>
-      </td>
-      <td>
-        <b>学科</b>
-      </td>
-      <td>
-        <b>理解</b>
-      </td>
-    </tr>
-    <tr valign="top">
-      <td>
-<details open>
-<summary><b>字词释义</b></summary>
-
-- WiC
-- SummEdits
-
-</details>
-
-<details open>
-<summary><b>成语习语</b></summary>
-
-- CHID
-
-</details>
-
-<details open>
-<summary><b>语义相似度</b></summary>
-
-- AFQMC
-- BUSTM
-
-</details>
-
-<details open>
-<summary><b>指代消解</b></summary>
-
-- CLUEWSC
-- WSC
-- WinoGrande
-
-</details>
-
-<details open>
-<summary><b>翻译</b></summary>
-
-- Flores
-
-</details>
-      </td>
-      <td>
-<details open>
-<summary><b>知识问答</b></summary>
-
-- BoolQ
-- CommonSenseQA
-- NaturalQuestion
-- TrivialQA
-
-</details>
-
-<details open>
-<summary><b>多语种问答</b></summary>
-
-- TyDi-QA
-
-</details>
-      </td>
-      <td>
-<details open>
-<summary><b>文本蕴含</b></summary>
-
-- CMNLI
-- OCNLI
-- OCNLI_FC
-- AX-b
-- AX-g
-- CB
-- RTE
-
-</details>
-
-<details open>
-<summary><b>常识推理</b></summary>
-
-- StoryCloze
-- StoryCloze-CN（即将上线）
-- COPA
-- ReCoRD
-- HellaSwag
-- PIQA
-- SIQA
-
-</details>
-
-<details open>
-<summary><b>数学推理</b></summary>
-
-- MATH
-- GSM8K
-
-</details>
-
-<details open>
-<summary><b>定理应用</b></summary>
-
-- TheoremQA
-
-</details>
-
-<details open>
-<summary><b>代码</b></summary>
-
-- HumanEval
-- MBPP
-
-</details>
-
-<details open>
-<summary><b>综合推理</b></summary>
-
-- BBH
-
-</details>
-      </td>
-      <td>
-<details open>
-<summary><b>初中/高中/大学/职业考试</b></summary>
-
-- GAOKAO-2023
-- CEval
-- AGIEval
-- MMLU
-- GAOKAO-Bench
-- CMMLU
-- ARC
-
-</details>
-      </td>
-      <td>
-<details open>
-<summary><b>阅读理解</b></summary>
-
-- C3
-- CMRC
-- DRCD
-- MultiRC
-- RACE
-
-</details>
-
-<details open>
-<summary><b>内容总结</b></summary>
-
-- CSL
-- LCSTS
-- XSum
-
-</details>
-
-<details open>
-<summary><b>内容分析</b></summary>
-
-- EPRSTMT
-- LAMBADA
-- TNEWS
-
-</details>
-      </td>
-    </tr>
-</td>
-    </tr>
-  </tbody>
-</table>
-
-<p align="right"><a href="#top">🔝返回顶部</a></p>
-
-## 📖 模型支持
-
-<table align="center">
-  <tbody>
-    <tr align="center" valign="bottom">
-      <td>
-        <b>开源模型</b>
-      </td>
-      <td>
-        <b>API 模型</b>
-      </td>
-      <!-- <td>
-        <b>自定义模型</b>
-      </td> -->
-    </tr>
-    <tr valign="top">
-      <td>
-
-- LLaMA
-- Vicuna
-- Alpaca
-- Baichuan
-- WizardLM
-- ChatGLM-6B
-- ChatGLM2-6B
-- MPT
-- Falcon
-- TigerBot
-- MOSS
-- ……
-
-</td>
-<td>
-
-- OpenAI
-- Claude (即将推出)
-- PaLM (即将推出)
-- ……
-
-</td>
-<!-- <td>
-
-- GLM
-- ……
-
-</td> -->
-</tr>
-  </tbody>
-</table>
-
 ## 🛠️ 安装
 
 下面展示了快速安装以及准备数据集的步骤。
@@ -312,11 +77,11 @@ OpenCompass 是面向大模型评测的一站式平台。其主要特点如下�
 ```Python
 conda create --name opencompass python=3.10 pytorch torchvision pytorch-cuda -c nvidia -c pytorch -y
 conda activate opencompass
-git clone https://github.com/InternLM/opencompass opencompass
+git clone https://github.com/open-compass/opencompass opencompass
 cd opencompass
 pip install -e .
 # 下载数据集到 data/ 处
-wget https://github.com/InternLM/opencompass/releases/download/0.1.1/OpenCompassData.zip
+wget https://github.com/open-compass/opencompass/releases/download/0.1.1/OpenCompassData.zip
 unzip OpenCompassData.zip
 ```
 
@@ -359,6 +124,316 @@ python run.py --datasets ceval_ppl mmlu_ppl \
 
 更多教程请查看我们的[文档](https://opencompass.readthedocs.io/zh_CN/latest/index.html)。
 
+<p align="right"><a href="#top">🔝返回顶部</a></p>
+
+## 📖 数据集支持
+
+<table align="center">
+  <tbody>
+    <tr align="center" valign="bottom">
+      <td>
+        <b>语言</b>
+      </td>
+      <td>
+        <b>知识</b>
+      </td>
+      <td>
+        <b>推理</b>
+      </td>
+      <td>
+        <b>考试</b>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td>
+<details open>
+<summary><b>字词释义</b></summary>
+
+- WiC
+- SummEdits
+
+</details>
+
+<details open>
+<summary><b>成语习语</b></summary>
+
+- CHID
+
+</details>
+
+<details open>
+<summary><b>语义相似度</b></summary>
+
+- AFQMC
+- BUSTM
+
+</details>
+
+<details open>
+<summary><b>指代消解</b></summary>
+
+- CLUEWSC
+- WSC
+- WinoGrande
+
+</details>
+
+<details open>
+<summary><b>翻译</b></summary>
+
+- Flores
+- IWSLT2017
+
+</details>
+
+<details open>
+<summary><b>多语种问答</b></summary>
+
+- TyDi-QA
+- XCOPA
+
+</details>
+
+<details open>
+<summary><b>多语种总结</b></summary>
+
+- XLSum
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>知识问答</b></summary>
+
+- BoolQ
+- CommonSenseQA
+- NaturalQuestions
+- TriviaQA
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>文本蕴含</b></summary>
+
+- CMNLI
+- OCNLI
+- OCNLI_FC
+- AX-b
+- AX-g
+- CB
+- RTE
+- ANLI
+
+</details>
+
+<details open>
+<summary><b>常识推理</b></summary>
+
+- StoryCloze
+- COPA
+- ReCoRD
+- HellaSwag
+- PIQA
+- SIQA
+
+</details>
+
+<details open>
+<summary><b>数学推理</b></summary>
+
+- MATH
+- GSM8K
+
+</details>
+
+<details open>
+<summary><b>定理应用</b></summary>
+
+- TheoremQA
+- StrategyQA
+- SciBench
+
+</details>
+
+<details open>
+<summary><b>综合推理</b></summary>
+
+- BBH
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>初中/高中/大学/职业考试</b></summary>
+
+- C-Eval
+- AGIEval
+- MMLU
+- GAOKAO-Bench
+- CMMLU
+- ARC
+- Xiezhi
+
+</details>
+
+<details open>
+<summary><b>医学考试</b></summary>
+
+- CMB
+
+</details>
+      </td>
+    </tr>
+</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr align="center" valign="bottom">
+      <td>
+        <b>理解</b>
+      </td>
+      <td>
+        <b>长文本</b>
+      </td>
+      <td>
+        <b>安全</b>
+      </td>
+      <td>
+        <b>代码</b>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td>
+<details open>
+<summary><b>阅读理解</b></summary>
+
+- C3
+- CMRC
+- DRCD
+- MultiRC
+- RACE
+- DROP
+- OpenBookQA
+- SQuAD2.0
+
+</details>
+
+<details open>
+<summary><b>内容总结</b></summary>
+
+- CSL
+- LCSTS
+- XSum
+- SummScreen
+
+</details>
+
+<details open>
+<summary><b>内容分析</b></summary>
+
+- EPRSTMT
+- LAMBADA
+- TNEWS
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>长文本理解</b></summary>
+
+- LEval
+- LongBench
+- GovReports
+- NarrativeQA
+- Qasper
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>安全</b></summary>
+
+- CivilComments
+- CrowsPairs
+- CValues
+- JigsawMultilingual
+- TruthfulQA
+
+</details>
+<details open>
+<summary><b>健壮性</b></summary>
+
+- AdvGLUE
+
+</details>
+      </td>
+      <td>
+<details open>
+<summary><b>代码</b></summary>
+
+- HumanEval
+- HumanEvalX
+- MBPP
+- APPs
+- DS1000
+
+</details>
+      </td>
+    </tr>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p align="right"><a href="#top">🔝返回顶部</a></p>
+
+## 📖 模型支持
+
+<table align="center">
+  <tbody>
+    <tr align="center" valign="bottom">
+      <td>
+        <b>开源模型</b>
+      </td>
+      <td>
+        <b>API 模型</b>
+      </td>
+      <!-- <td>
+        <b>自定义模型</b>
+      </td> -->
+    </tr>
+    <tr valign="top">
+      <td>
+
+- InternLM
+- LLaMA
+- Vicuna
+- Alpaca
+- Baichuan
+- WizardLM
+- ChatGLM2
+- Falcon
+- TigerBot
+- Qwen
+- ……
+
+</td>
+<td>
+
+- OpenAI
+- Claude
+- PaLM (即将推出)
+- ……
+
+</td>
+
+</tr>
+  </tbody>
+</table>
+
+<p align="right"><a href="#top">🔝返回顶部</a></p>
+
 ## 🔜 路线图
 
 - [ ] 主观评测
@@ -392,7 +467,7 @@ python run.py --datasets ceval_ppl mmlu_ppl \
 @misc{2023opencompass,
     title={OpenCompass: A Universal Evaluation Platform for Foundation Models},
     author={OpenCompass Contributors},
-    howpublished = {\url{https://github.com/InternLM/OpenCompass}},
+    howpublished = {\url{https://github.com/open-compass/opencompass}},
     year={2023}
 }
 ```
