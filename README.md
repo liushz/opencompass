@@ -10,7 +10,7 @@
 
 [🌐Website](https://opencompass.org.cn/) |
 [📘Documentation](https://opencompass.readthedocs.io/en/latest/) |
-[🛠️Installation](https://opencompass.readthedocs.io/en/latest/get_started.html#installation) |
+[🛠️Installation](https://opencompass.readthedocs.io/en/latest/get_started/installation.html) |
 [🤔Reporting Issues](https://github.com/open-compass/opencompass/issues/new/choose)
 
 English | [简体中文](README_zh-CN.md)
@@ -28,7 +28,7 @@ to **OpenCompass**!
 Just like a compass guides us on our journey, OpenCompass will guide you through the complex landscape of evaluating large language models. With its powerful algorithms and intuitive interface, OpenCompass makes it easy to assess the quality and effectiveness of your NLP models.
 
 > **🔥 Attention**<br />
-> We launch the OpenCompass Collabration project, welcome to support diverse evaluation benchmarks into OpenCompass!
+> We launch the OpenCompass Collaboration project, welcome to support diverse evaluation benchmarks into OpenCompass!
 > Clike [Issue](https://github.com/open-compass/opencompass/issues/248) for more information.
 > Let's work together to build a more powerful OpenCompass toolkit!
 
@@ -42,7 +42,7 @@ Just like a compass guides us on our journey, OpenCompass will guide you through
 - **\[2023.09.06\]**  [**Baichuan2**](https://github.com/baichuan-inc/Baichuan2) team adpots OpenCompass to evaluate their models systematically. We deeply appreciate the community's dedication to transparency and reproducibility in LLM evaluation.
 - **\[2023.09.02\]** We have supported the evaluation of [Qwen-VL](https://github.com/QwenLM/Qwen-VL) in OpenCompass.
 - **\[2023.08.25\]**  [**TigerBot**](https://github.com/TigerResearch/TigerBot) team adpots OpenCompass to evaluate their models systematically. We deeply appreciate the community's dedication to transparency and reproducibility in LLM evaluation.
-- **\[2023.08.21\]** [**Lagent**](https://github.com/InternLM/lagent) has been released, which is a lightweight framework for building LLM-based agents. We are working with Lagent team to support the evaluation of general tool-use capability, stay tuned!
+- **\[2023.08.21\]** [**Lagent**](https://github.com/InternLM/lagent) has been released, which is a lightweight framework for building LLM-based agents. We are working with the Lagent team to support the evaluation of general tool-use capability, stay tuned!
 
 > [More](docs/en/notes/news.md)
 
@@ -50,21 +50,21 @@ Just like a compass guides us on our journey, OpenCompass will guide you through
 
 ![image](https://github.com/open-compass/opencompass/assets/22607038/f45fe125-4aed-4f8c-8fe8-df4efb41a8ea)
 
-OpenCompass is a one-stop platform for large model evaluation, aiming to provide a fair, open, and reproducible benchmark for large model evaluation. Its main features includes:
+OpenCompass is a one-stop platform for large model evaluation, aiming to provide a fair, open, and reproducible benchmark for large model evaluation. Its main features include:
 
 - **Comprehensive support for models and datasets**: Pre-support for 20+ HuggingFace and API models, a model evaluation scheme of 70+ datasets with about 400,000 questions, comprehensively evaluating the capabilities of the models in five dimensions.
 
 - **Efficient distributed evaluation**: One line command to implement task division and distributed evaluation, completing the full evaluation of billion-scale models in just a few hours.
 
-- **Diversified evaluation paradigms**: Support for zero-shot, few-shot, and chain-of-thought evaluations, combined with standard or dialogue type prompt templates, to easily stimulate the maximum performance of various models.
+- **Diversified evaluation paradigms**: Support for zero-shot, few-shot, and chain-of-thought evaluations, combined with standard or dialogue-type prompt templates, to easily stimulate the maximum performance of various models.
 
 - **Modular design with high extensibility**: Want to add new models or datasets, customize an advanced task division strategy, or even support a new cluster management system? Everything about OpenCompass can be easily expanded!
 
-- **Experiment management and reporting mechanism**: Use config files to fully record each experiment, support real-time reporting of results.
+- **Experiment management and reporting mechanism**: Use config files to fully record each experiment, and support real-time reporting of results.
 
 ## 📊 Leaderboard
 
-We provide [OpenCompass Leaderbaord](https://opencompass.org.cn/rank) for community to rank all public models and API models. If you would like to join the evaluation, please provide the model repository URL or a standard API interface to the email address `opencompass@pjlab.org.cn`.
+We provide [OpenCompass Leaderbaord](https://opencompass.org.cn/rank) for the community to rank all public models and API models. If you would like to join the evaluation, please provide the model repository URL or a standard API interface to the email address `opencompass@pjlab.org.cn`.
 
 <p align="right"><a href="#top">🔝Back to top</a></p>
 
@@ -83,7 +83,7 @@ wget https://github.com/open-compass/opencompass/releases/download/0.1.1/OpenCom
 unzip OpenCompassData.zip
 ```
 
-Some third-party features, like Humaneval and Llama, may require additional steps to work properly, for detailed steps please refer to the [Installation Guide](https://opencompass.readthedocs.io/en/latest/get_started.html).
+Some third-party features, like Humaneval and Llama, may require additional steps to work properly, for detailed steps please refer to the [Installation Guide](https://opencompass.readthedocs.io/en/latest/get_started/installation.html).
 
 <p align="right"><a href="#top">🔝Back to top</a></p>
 
@@ -115,10 +115,13 @@ python run.py --datasets ceval_ppl mmlu_ppl \
 --max-seq-len 2048 \  # Maximum sequence length the model can accept
 --batch-size 8 \  # Batch size
 --no-batch-padding \  # Don't enable batch padding, infer through for loop to avoid performance loss
---num-gpus 1  # Number of required GPUs
+--num-gpus 1  # Number of minimum required GPUs
 ```
 
-Through the command line or configuration files, OpenCompass also supports evaluating APIs or custom models, as well as more diversified evaluation strategies. Please read the [Quick Start](https://opencompass.readthedocs.io/en/latest/get_started.html) to learn how to run an evaluation task.
+> **Note**<br />
+> To run the command above, you will need to remove the comments starting from `# ` first.
+
+Through the command line or configuration files, OpenCompass also supports evaluating APIs or custom models, as well as more diversified evaluation strategies. Please read the [Quick Start](https://opencompass.readthedocs.io/en/latest/get_started/quick_start.html) to learn how to run an evaluation task.
 
 <p align="right"><a href="#top">🔝Back to top</a></p>
 
@@ -439,7 +442,7 @@ Through the command line or configuration files, OpenCompass also supports evalu
   - [ ] Long-context evaluation with extensive datasets.
   - [ ] Long-context leaderboard.
 - [ ] Coding
-  - [ ] Coding evaluation leaderdboard.
+  - [ ] Coding evaluation leaderboard.
   - [ ] Non-python language evaluation service.
 - [ ] Agent
   - [ ] Support various agenet framework.
@@ -449,7 +452,7 @@ Through the command line or configuration files, OpenCompass also supports evalu
 
 ## 👷‍♂️ Contributing
 
-We appreciate all contributions to improve OpenCompass. Please refer to the [contributing guideline](https://opencompass.readthedocs.io/en/latest/notes/contribution_guide.html) for the best practice.
+We appreciate all contributions to improving OpenCompass. Please refer to the [contributing guideline](https://opencompass.readthedocs.io/en/latest/notes/contribution_guide.html) for the best practice.
 
 ## 🤝 Acknowledgements
 

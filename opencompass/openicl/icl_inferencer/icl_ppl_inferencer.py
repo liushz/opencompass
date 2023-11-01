@@ -41,7 +41,6 @@ class PPLInferencer(BaseInferencer):
             output_json_filepath: Optional[str] = './icl_inference_output',
             output_json_filename: Optional[str] = 'predictions',
             labels: Optional[List] = None,
-            fix_id_list: Optional[List[int]] = None,
             **kwargs) -> None:
         super().__init__(
             model=model,
@@ -53,7 +52,6 @@ class PPLInferencer(BaseInferencer):
         )
 
         self.labels = labels
-        self.fix_id_list = fix_id_list
 
     def inference(self,
                   retriever: BaseRetriever,
@@ -75,10 +73,7 @@ class PPLInferencer(BaseInferencer):
             output_json_filename = self.output_json_filename
 
         # 2. Get results of retrieval process
-        if self.fix_id_list:
-            ice_idx_list = retriever.retrieve(self.fix_id_list)
-        else:
-            ice_idx_list = retriever.retrieve()
+        ice_idx_list = retriever.retrieve()
 
         # 3. Get labels of all the classes
         if self.labels is None:
@@ -99,6 +94,7 @@ class PPLInferencer(BaseInferencer):
             index = 0
             prompt_list = []
             sub_ppl_list = []
+            token_num_list = []
             normalizing_prompt_list = []
             context_length_list = []
 
@@ -149,6 +145,7 @@ class PPLInferencer(BaseInferencer):
                                                                mode='ppl'))
                     normalizing_prompt_list.append(normalizing_prompt)
                 prompt_list.append(prompt)
+                token_num_list.append(prompt_token_num)
 
             if normalizing_str is not None:
                 normalizing_str_len = self.model.get_token_len_from_template(
@@ -191,6 +188,10 @@ class PPLInferencer(BaseInferencer):
                     ice_str = self.model.parse_template(ice[idx], mode='ppl')
                     output_handler.save_prompt_and_ppl(
                         label, prompt.replace(ice_str, ''), prompt, res, index)
+                    output_handler.results_dict[str(
+                        index)][f'label: {str(label)}'][
+                            'BPB'] = res * token_num_list[idx] / len(
+                                prompt.replace(ice_str, '').encode())
                     index = index + 1
             ppl.append(sub_ppl_list)
 

@@ -7,9 +7,10 @@ from datetime import datetime
 from mmengine.config import Config, DictAction
 
 from opencompass.partitioners import MultimodalNaivePartitioner
-from opencompass.registry import PARTITIONERS, RUNNERS
+from opencompass.registry import PARTITIONERS, RUNNERS, build_from_cfg
 from opencompass.runners import SlurmRunner
-from opencompass.utils import LarkReporter, Summarizer, get_logger
+from opencompass.summarizers import DefaultSummarizer
+from opencompass.utils import LarkReporter, get_logger
 from opencompass.utils.run import (exec_mm_infer_runner, fill_eval_cfg,
                                    fill_infer_cfg, get_config_from_arg)
 
@@ -122,6 +123,12 @@ def parse_args():
         'Will be overrideen by the "retry" argument in the config.',
         type=int,
         default=2)
+    parser.add_argument(
+        '--dump-eval-details',
+        help='Whether to dump the evaluation details, including the '
+        'correctness of each sample, bpb, etc.',
+        action='store_true',
+    )
     # set srun args
     slurm_parser = parser.add_argument_group('slurm_args')
     parse_slurm_args(slurm_parser)
@@ -174,8 +181,14 @@ def parse_hf_args(hf_parser):
     hf_parser.add_argument('--hf-path', type=str)
     hf_parser.add_argument('--peft-path', type=str)
     hf_parser.add_argument('--tokenizer-path', type=str)
-    hf_parser.add_argument('--model-kwargs', nargs='+', action=DictAction)
-    hf_parser.add_argument('--tokenizer-kwargs', nargs='+', action=DictAction)
+    hf_parser.add_argument('--model-kwargs',
+                           nargs='+',
+                           action=DictAction,
+                           default={})
+    hf_parser.add_argument('--tokenizer-kwargs',
+                           nargs='+',
+                           action=DictAction,
+                           default={})
     hf_parser.add_argument('--max-out-len', type=int)
     hf_parser.add_argument('--max-seq-len', type=int)
     hf_parser.add_argument('--no-batch-padding',
@@ -293,6 +306,8 @@ def main():
 
         if args.dlc or args.slurm or cfg.get('eval', None) is None:
             fill_eval_cfg(cfg, args)
+        if args.dump_eval_details:
+            cfg.eval.runner.task.dump_details = True
 
         if args.partition is not None:
             if RUNNERS.get(cfg.eval.runner.type) == SlurmRunner:
@@ -315,7 +330,11 @@ def main():
 
     # visualize
     if args.mode in ['all', 'eval', 'viz']:
-        summarizer = Summarizer(cfg)
+        summarizer_cfg = cfg.get('summarizer', {})
+        if not summarizer_cfg or summarizer_cfg.get('type', None) is None:
+            summarizer_cfg['type'] = DefaultSummarizer
+        summarizer_cfg['config'] = cfg
+        summarizer = build_from_cfg(summarizer_cfg)
         summarizer.summarize(time_str=cfg_time_str)
 
 

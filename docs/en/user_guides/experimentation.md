@@ -5,7 +5,7 @@
 The program entry for the evaluation task is `run.py`. The usage is as follows:
 
 ```shell
-python run.py $EXP {--slurm | --dlc | None} [-p PARTITION] [-q QUOTATYPE] [--debug] [-m MODE] [-r [REUSE]] [-w WORKDIR] [-l] [--dry-run]
+python run.py $EXP {--slurm | --dlc | None} [-p PARTITION] [-q QUOTATYPE] [--debug] [-m MODE] [-r [REUSE]] [-w WORKDIR] [-l] [--dry-run] [--dump-eval-details]
 ```
 
 Task Configuration (`$EXP`):
@@ -33,7 +33,7 @@ Task Configuration (`$EXP`):
   --max-seq-len 2048 \  # Maximum generated token count
   --batch-size 8 \  # Batch size
   --no-batch-padding \  # Disable batch padding and infer through a for loop to avoid accuracy loss
-  --num-gpus 1  # Number of required GPUs
+  --num-gpus 1  # Number of minimum required GPUs for this model
   ```
 
   Complete HuggingFace parameter descriptions:
@@ -47,7 +47,7 @@ Task Configuration (`$EXP`):
   - `--max-seq-len`: Maximum sequence length the model can accept
   - `--no-batch-padding`: Disable batch padding and infer through a for loop to avoid accuracy loss
   - `--batch-size`: Batch size
-  - `--num-gpus`: Number of GPUs required to run the model
+  - `--num-gpus`: Number of GPUs required to run the model. Please note that this parameter is only used to determine the number of GPUs required to run the model, and does not affect the actual number of GPUs used for the task. Refer to [Efficient Evaluation](./evaluation.md) for more details.
 
 Starting Methods:
 
@@ -66,6 +66,7 @@ The parameter explanation is as follows:
 - `-w`: Specify the working path, default is `./outputs/default`.
 - `-l`: Enable status reporting via Lark bot.
 - `--dry-run`: When enabled, inference and evaluation tasks will be dispatched but won't actually run for debugging.
+- `--dump-eval-details`: When enabled，evaluation under the `results` folder will include more details, such as the correctness of each sample.
 
 Using run mode `-m all` as an example, the overall execution flow is as follows:
 

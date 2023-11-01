@@ -24,8 +24,9 @@ OpenCompass 上手路线
    :maxdepth: 1
    :caption: 开始你的第一步
 
-   get_started.md
-   faq.md
+   get_started/installation.md
+   get_started/quick_start.md
+   get_started/faq.md
 
 .. _教程:
 .. toctree::
@@ -63,6 +64,7 @@ OpenCompass 上手路线
    advanced_guides/multimodal_eval.md
    advanced_guides/prompt_attack.md
    advanced_guides/longeval.md
+   advanced_guides/subjective_evaluation.md
 
 .. _工具:
 .. toctree::

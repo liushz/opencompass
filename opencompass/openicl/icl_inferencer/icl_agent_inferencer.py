@@ -27,6 +27,7 @@ class AgentInferencer(BaseInferencer):
             output_json_filepath: Optional[str] = './icl_inference_output',
             output_json_filename: Optional[str] = 'predictions',
             save_every: Optional[int] = 1,
+            example: Optional[str] = None,
             **kwargs) -> None:
         super().__init__(
             model=model,
@@ -35,6 +36,10 @@ class AgentInferencer(BaseInferencer):
             **kwargs,
         )
         self.save_every = save_every
+        # example in agent usage for protocol illustration
+        self.example = example
+        if example:
+            self.agent.add_example(example)
 
     @property
     def agent(self):
@@ -55,10 +60,7 @@ class AgentInferencer(BaseInferencer):
             output_json_filename = self.output_json_filename
 
         # 2. Get results of retrieval process
-        if 'Fix' in retriever.__class__.__name__:
-            ice_idx_list = retriever.retrieve(self.fix_id_list)
-        else:
-            ice_idx_list = retriever.retrieve()
+        ice_idx_list = retriever.retrieve()
 
         # Create tmp json file for saving intermediate results and future
         # resuming
