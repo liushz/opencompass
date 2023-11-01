@@ -96,7 +96,7 @@ for _split in list(mathbench_sets.keys()):
             evaluator=dict(type=CircularEvaluator if 'choice' in _name else AccEvaluator),
             pred_postprocessor=dict(type=first_capital_postprocess) if 'single_choice' in _name else dict(type=mathbench_postprocess, name=_name))
 
-        mathbench_datasets.append(
+        mathbench_datasets.append( 
             dict(
                 type=MathBenchDataset, 
                 path=f"./data/mathbench/{_split}",
@@ -109,5 +109,3 @@ for _split in list(mathbench_sets.keys()):
                 infer_cfg=mathbench_infer_cfg,
                 eval_cfg=mathbench_eval_cfg,
             ))
-
-del _split, _name
