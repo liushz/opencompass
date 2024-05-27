@@ -254,7 +254,7 @@ def change_accelerator(models, accelerator):
                 mod = VLLMwithChatTemplate
                 acc_model = dict(
                     type=f'{mod.__module__}.{mod.__name__}',
-                    abbr='-hf'.join(model['abbr'].split('-hf')[:-1]) + '-vllm',
+                    abbr=model['abbr'].replace('hf', 'vllm') if '-hf' in model['abbr'] else model['abbr'] + '-vllm',
                     path=model['path'],
                     model_kwargs=dict(tensor_parallel_size=model['run_cfg']['num_gpus']),
                     max_out_len=model['max_out_len'],
@@ -266,20 +266,21 @@ def change_accelerator(models, accelerator):
                 mod = TurboMindModelwithChatTemplate
                 acc_model = dict(
                     type=f'{mod.__module__}.{mod.__name__}',
-                    abbr='-hf'.join(model['abbr'].split('-hf')[:-1]) + '-turbomind',
+                    abbr=model['abbr'].replace('hf', 'lmdeploy') if '-hf' in model['abbr'] else model['abbr'] + '-lmdeploy',
                     path=model['path'],
                     engine_config=dict(max_batch_size=model.get('batch_size', 16), tp=model['run_cfg']['num_gpus']),
                     gen_config=dict(top_k=1, temperature=1e-6, top_p=0.9),
                     max_seq_len=model.get('max_seq_len', 2048),
                     max_out_len=model['max_out_len'],
-                    batch_size=32768,
+                    batch_size=32,
                     run_cfg=model['run_cfg'],
                     stop_words=model.get('stop_words', []),
                 )
             else:
                 raise ValueError(f'Unsupported accelerator {accelerator} for model type {model["type"]}')
         else:
-            raise ValueError(f'Unsupported model type {model["type"]}')
+            acc_model = model
+            logger.warning(f'Unsupported model type {model["type"]}, will keep the original model')
         model_accels.append(acc_model)
     return model_accels
 
