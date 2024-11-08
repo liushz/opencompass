@@ -53,11 +53,13 @@ class TurboMindModel(BaseModel):
                  engine_config: Dict = {},
                  gen_config: Dict = {},
                  batch_padding: bool = False,
+                 drop_middle: bool = False,
                  end_str: Optional[str] = None):
         super().__init__(path=path,
                          max_seq_len=max_seq_len,
                          meta_template=meta_template)
         self.logger = get_logger()
+        self.drop_middle = drop_middle
         self.max_seq_len = _get_possible_max_seq_len(max_seq_len, path)
         from lmdeploy import version_info
         from transformers import AutoTokenizer
@@ -117,6 +119,21 @@ class TurboMindModel(BaseModel):
             for k, v in gen_config.items() if hasattr(GenerationConfig, k)
         }
         gen_config = GenerationConfig(**gen_config)
+
+        if self.drop_middle:
+            inputs_drop_middle = []
+            for input in inputs:
+                input_ids = self.tokenizer([input],
+                                           padding=False,
+                                           truncation=False)['input_ids'][0]
+                if len(input_ids) > self.max_seq_len:
+                    input_ids = input_ids[:self.max_seq_len //
+                                          2] + input_ids[-self.max_seq_len //
+                                                         2:]
+                    input = self.tokenizer.decode(input_ids,
+                                                  skip_special_tokens=True)
+                inputs_drop_middle.append(input)
+            inputs = inputs_drop_middle
 
         results = []
         outputs = self.pipe(inputs, gen_config=gen_config, do_preprocess=False)
@@ -189,15 +206,26 @@ class TurboMindModel(BaseModel):
         assert isinstance(
             inputs, List), f'List(str) is expected, but got {type(inputs)}'
         results = []
-        for text, cont in zip(inputs, conts):
-            input_ids = self.tokenizer.encode(text)
-            res = self.pipe.get_ppl(input_ids)
-            logit_sum = res * len(input_ids)
-            input_ids = self.tokenizer.encode(text.replace(cont, ''))
-            res = self.pipe.get_ppl(input_ids)
-            logit_part = res * len(input_ids)
-            results.append(-(logit_sum - logit_part))
-        results = np.concatenate(results)
+        if self.version_info <= (0, 6, 0):
+            for text, cont in zip(inputs, conts):
+                input_ids = self.tokenizer.encode(text)
+                res = self.pipe.get_ppl(input_ids)
+                logit_sum = res * len(input_ids)
+                input_ids = self.tokenizer.encode(text.replace(cont, ''))
+                res = self.pipe.get_ppl(input_ids)
+                logit_part = res * len(input_ids)
+                results.append(-(logit_sum - logit_part))
+            results = np.concatenate(results)
+        else:
+            for text, cont in zip(inputs, conts):
+                input_ids = self.tokenizer.encode(text)
+                res = self.pipe.get_ppl(input_ids)
+                logit_sum = res * len(input_ids)
+                input_ids = self.tokenizer.encode(text.replace(cont, ''))
+                res = self.pipe.get_ppl(input_ids)
+                logit_part = res * len(input_ids)
+                results.append(-(logit_sum[0] - logit_part[0]))
+            results = np.array(results)
         return results
 
     def _build_pipe(self, model_path, backend, engine_config):
