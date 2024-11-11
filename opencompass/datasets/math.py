@@ -168,6 +168,27 @@ class MATHDataset(BaseDataset):
         return dataset
 
 
+@LOAD_DATASET.register_module()
+class MATHAllDataset(BaseDataset):
+
+    @staticmethod
+    def load(path: str):
+        dataset = DatasetDict()
+        raw_data = []
+        with open(path, 'r') as f:
+            for line in f:
+                data = json.loads(line)
+                raw_data.append({
+                'problem':
+                data['question'],
+                'solution':
+                extract_boxed_answer(data['solution'])
+                })
+        dataset['test'] = Dataset.from_list(raw_data)
+        dataset['train'] = Dataset.from_list(raw_data)
+        return dataset
+
+
 @TEXT_POSTPROCESSORS.register_module('math_postprocess')
 def math_postprocess(text: str) -> str:
 
