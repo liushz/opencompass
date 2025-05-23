@@ -38,11 +38,13 @@ class TurboMindModelwithChatTemplate(BaseModel):
         fastchat_template: Optional[str] = None,
         stop_words: List[str] = [],
         drop_middle: bool = False,
+        with_thinking: bool = False,
     ):
         self.logger = get_logger()
         self.path = path
         self.tokenizer_only = tokenizer_only
         self.drop_middle = drop_middle
+        self.with_thinking = with_thinking
         self.template_parser = _get_meta_template(meta_template)
         self.max_seq_len = _get_possible_max_seq_len(max_seq_len, path)
 
@@ -131,7 +133,10 @@ class TurboMindModelwithChatTemplate(BaseModel):
             messages = _format_with_fast_chat_template(messages, self.fastchat_template)
         else:
             # NOTE: DeepSeek-R1 series model's chat template will add <think> after the
-            messages = [self.tokenizer.apply_chat_template(m, add_generation_prompt=True, tokenize=False) for m in messages]
+            if not self.with_thinking:
+                messages = [self.tokenizer.apply_chat_template(m, add_generation_prompt=True, tokenize=False, enable_thinking=False) for m in messages]
+            else:
+                messages = [self.tokenizer.apply_chat_template(m, add_generation_prompt=True, tokenize=False) for m in messages]
             # LMDeploy tokenize prompts by AutoTokenizer with its default parameter "add_special_token=True"
             # OC add bos_token in the prompt, which requires tokenizing prompts using "add_speicial_token=False"
             # But LMDeploy doesn't have "add_speicial_token" in the pipeline API. So, we remove bos_token

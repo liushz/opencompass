@@ -65,7 +65,19 @@ verifier_infer_cfg = dict(
 verifier_eval_cfg = dict(
     evaluator=dict(type=VerifierEvaluator, two_label=True))
 
-subsets = ['verifierbench_ood_v1_Math.json', 'verifierbench_ood_v1_Knowledge.json', 'verifierbench_ood_v1_Reasoning.json', 'verifierbench_id_v1_Math.json', 'verifierbench_id_v1_Knowledge.json', 'verifierbench_id_v1_Reasoning.json']
+subsets = [
+        #     'verifierbench_ood_v1_Math.json', 
+        #    'verifierbench_ood_v1_Knowledge.json', 
+        #    'verifierbench_ood_v1_Reasoning.json', 
+        #    'verifierbench_id_v1_Math.json', 
+        #    'verifierbench_id_v1_Knowledge.json', 
+        #    'verifierbench_id_v1_Reasoning.json'
+        'verifierbench_v3_General_Reasoning.json',
+        'verifierbench_v3_Knowledge.json',
+        'verifierbench_v3_Math.json',
+        'verifierbench_v3_Science.json'
+           ]
+
 verifier_datasets = []
 
 for subset in subsets:
@@ -74,7 +86,7 @@ for subset in subsets:
             type=VerifierEvalDataset,
             abbr=f'verifier_{subset.split(".")[0]}',
             # path='./data/verifier_eval',
-            path='/fs-computility/llmeval/liuhongwei/work/main_work/opencompass/data/verifier_eval/v1',
+            path='/fs-computility/llmeval/liuhongwei/work/main_work/opencompass/data/verifier_eval/v3',
             subset=subset,
             reader_cfg=verifier_reader_cfg,
             infer_cfg=verifier_infer_cfg,

@@ -9,7 +9,10 @@ summarizer = dict(
         'OlympiadBench_OE_TO_maths_zh_COMP',
         'OlympiadBench_OE_TO_maths_zh_CEE',
         'OlympiadBench_OE_TO_physics_en_COMP',
-        'OlympiadBench_OE_TO_physics_zh_CEE'
+        'OlympiadBench_OE_TO_physics_zh_CEE',
+        'OlympiadBench_math',
+        'OlympiadBench_physics',
+        'OlympiadBench'
     ],
     summary_groups=sum([v for k, v in locals().items() if k.endswith('_summary_groups')], []),
 )

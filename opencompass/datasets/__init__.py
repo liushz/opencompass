@@ -105,6 +105,7 @@ from .mmmlu import *  # noqa: F401, F403
 from .multipl_e import *  # noqa: F401, F403
 from .multirc import *  # noqa: F401, F403
 from .musr import *  # noqa: F401, F403
+from .mycustom import *  # noqa: F401, F403
 from .narrativeqa import *  # noqa: F401, F403
 from .natural_question import *  # noqa: F401, F403
 from .natural_question_cn import *  # noqa: F401, F403

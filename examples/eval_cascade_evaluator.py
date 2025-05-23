@@ -91,14 +91,14 @@ llm_judge_evaluator =   dict(
         path='opencompass/math',
         file_name='test_prm800k_500.json',
         ),
-        judge_cfg=dict(),
+        judge_cfg=lmdeploy_qwen2_5_7b_instruct_model[0],
     )
 
 rule_evaluator =dict(type=MATHEvaluator)
 cascade_evaluator = dict(type=CascadeEvaluator,
                    llm_evaluator=llm_judge_evaluator,
                    rule_evaluator=rule_evaluator,
-                   parallel=False
+                   parallel=True
                    )
 ########################## #################################
 eval_cfg = dict()
@@ -124,4 +124,4 @@ datasets = math_datasets
 models = lmdeploy_qwen2_5_7b_instruct_model
 
 
-work_dir = 'math_prm800k_500_cascade_evaluator'
+work_dir = 'outputs/math_prm800k_500_cascade_evaluator'
