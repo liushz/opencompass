@@ -30,6 +30,7 @@ class VLLMwithChatTemplate(BaseModel):
         meta_template: Optional[Dict] = None,
         fastchat_template: Optional[str] = None,
         stop_words: List[str] = [],
+        with_thinking: bool = False,
     ):
         assert LLM, ('Please install VLLM with `pip install vllm`. note: torch==2.1.2 is required.')
 
@@ -50,7 +51,7 @@ class VLLMwithChatTemplate(BaseModel):
         self.generation_kwargs.pop('do_sample', None)
         self.fastchat_template = fastchat_template
         self.stop_words = list(set(stop_words + self._get_potential_stop_words(path)))
-
+        self.with_thinking = with_thinking
     def _load_model(self, path: str, added_model_kwargs: dict = dict()):
         import ray
 
@@ -97,7 +98,7 @@ class VLLMwithChatTemplate(BaseModel):
         if self.fastchat_template:
             messages = _format_with_fast_chat_template(messages, self.fastchat_template)
         else:
-            messages = [self.tokenizer.apply_chat_template(m, add_generation_prompt=True, tokenize=False) for m in messages]
+            messages = [self.tokenizer.apply_chat_template(m, add_generation_prompt=True, tokenize=False, enable_thinking=self.with_thinking) for m in messages]
             # vLLM tokenize prompts by AutoTokenizer with its default parameter "add_special_token=True"
             # OC add bos_token in the prompt, which requires tokenizing prompts using "add_speicial_token=False"
             # But vLLM doesn't have "add_speicial_token" in the pipeline API. So, we remove bos_token
