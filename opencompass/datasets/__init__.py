@@ -20,6 +20,7 @@ from .CARDBiomedBench import CARDBiomedBenchDataset  # noqa: F401
 from .cb import *  # noqa: F401, F403
 from .ceval import *  # noqa: F401, F403
 from .charm import *  # noqa: F401, F403
+from .chem_exam import *  # noqa: F401, F403
 from .chembench import *  # noqa: F401, F403
 from .chid import *  # noqa: F401, F403
 from .chinese_simpleqa import *  # noqa: F401, F403
@@ -124,6 +125,7 @@ from .obqa import *  # noqa: F401, F403
 from .olymmath import *  # noqa: F401, F403
 from .OlympiadBench import *  # noqa: F401, F403
 from .OpenFinData import *  # noqa: F401, F403
+from .phybench import *  # noqa: F401, F403
 from .physics import *  # noqa: F401, F403
 from .piqa import *  # noqa: F401, F403
 from .ProteinLMBench import *  # noqa: F401, F403
@@ -145,6 +147,7 @@ from .simpleqa import *  # noqa: F401, F403
 from .siqa import *  # noqa: F401, F403
 from .smolinstruct import *  # noqa: F401, F403
 from .squad20 import SQuAD20Dataset, SQuAD20Evaluator  # noqa: F401, F403
+from .srbench import *  # noqa: F401, F403
 from .storycloze import *  # noqa: F401, F403
 from .strategyqa import *  # noqa: F401, F403
 from .subjective import *  # noqa: F401, F403
