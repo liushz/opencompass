@@ -3,6 +3,7 @@ import os.path as osp
 import re
 
 from datasets import Dataset
+from transformers import AutoTokenizer
 
 from opencompass.openicl.icl_evaluator import BaseEvaluator
 from opencompass.registry import ICL_EVALUATORS, LOAD_DATASET
@@ -18,6 +19,17 @@ class VerifierEvalDataset(BaseDataset):
         file_path = osp.join(path, subset)
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
+        # 计算每个样本的token数量
+        # enc = tiktoken.encoding_for_model('cl100k_base')
+        # enc = tiktoken.get_encoding('cl100k_base')
+        tokenizer = AutoTokenizer.from_pretrained('Qwen/Qwen2.5-1.5B-Instruct')
+        for item in data:
+            item['gold_answer'] = str(item['gold_answer'])
+            if len(
+                    tokenizer.encode(
+                        str(item['question']) + str(item['llm_response']) +
+                        str(item['gold_answer']))) + 2048 + 4096 > 32768:
+                item['llm_response'] = item['llm_response'][-4096:]
         dataset = Dataset.from_list(data)
         return dataset
 
@@ -39,7 +51,7 @@ def extract_last_boxed(response):
         return None
 
 
-def two_label_score(processed_predictions, references):
+def two_label_score(processed_predictions, references, ues_cot: bool = False):
     details = []
     cnt = 0
     tp = 0  # 真正例
@@ -217,8 +229,9 @@ def three_label_score(processed_predictions, references):
 @ICL_EVALUATORS.register_module()
 class VerifierEvaluator(BaseEvaluator):
 
-    def __init__(self, two_label=True):
+    def __init__(self, two_label=True, ues_cot=False):
         self.two_label = two_label
+        self.ues_cot = ues_cot
 
     def score(self, predictions, references):
         if len(predictions) != len(references):

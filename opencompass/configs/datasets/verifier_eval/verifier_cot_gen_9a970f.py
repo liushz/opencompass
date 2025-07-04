@@ -117,12 +117,6 @@ verifier_eval_cfg = dict(
     evaluator=dict(type=VerifierEvaluator, two_label=True))
 
 subsets = [
-        #    'verifierbench_v2_Math.json', 
-        #    'verifierbench_v2_Knowledge.json', 
-        #    'verifierbench_v2_Reasoning.json', 
-        #    'verifierbench_ood_v1_Math.json', 
-        #    'verifierbench_ood_v1_Knowledge.json', 
-        #    'verifierbench_ood_v1_Reasoning.json'
         'verifierbench_v3_General_Reasoning.json',
         'verifierbench_v3_Knowledge.json',
         'verifierbench_v3_Math.json',

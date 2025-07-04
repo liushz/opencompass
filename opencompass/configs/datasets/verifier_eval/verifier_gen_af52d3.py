@@ -73,13 +73,6 @@ subsets = [
         'verifierbench_v3_Knowledge.json',
         'verifierbench_v3_Math.json',
         'verifierbench_v3_Science.json'
-        # 'verifierbench_2819_Boolean.json',
-        # 'verifierbench_2819_Multi-subproblem.json',
-        # 'verifierbench_2819_Numerical.json',
-        # 'verifierbench_2819_Short_Text.json',
-        # 'verifierbench_2819_Formula.json',
-        # 'verifierbench_2819_Multiple_Choice.json',
-        # 'verifierbench_2819_Sequence.json'
         ]
 verifier_datasets = []
 
