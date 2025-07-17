@@ -1,9 +1,6 @@
-import json
-import os.path as osp
 import re
 
-from datasets import Dataset
-from transformers import AutoTokenizer
+from datasets import Dataset, load_dataset
 
 from opencompass.openicl.icl_evaluator import BaseEvaluator
 from opencompass.registry import ICL_EVALUATORS, LOAD_DATASET
@@ -16,22 +13,14 @@ class VerifierEvalDataset(BaseDataset):
 
     @staticmethod
     def load(path: str, subset: str):
-        file_path = osp.join(path, subset)
-        with open(file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        # 计算每个样本的token数量
-        # enc = tiktoken.encoding_for_model('cl100k_base')
-        # enc = tiktoken.get_encoding('cl100k_base')
-        tokenizer = AutoTokenizer.from_pretrained('Qwen/Qwen2.5-1.5B-Instruct')
-        for item in data:
-            item['gold_answer'] = str(item['gold_answer'])
-            if len(
-                    tokenizer.encode(
-                        str(item['question']) + str(item['llm_response']) +
-                        str(item['gold_answer']))) + 2048 + 4096 > 32768:
-                item['llm_response'] = item['llm_response'][-4096:]
-        dataset = Dataset.from_list(data)
-        return dataset
+        # Load from huggingface
+        dataset = load_dataset(path)
+        sub_dataset = []
+        for item in dataset:
+            if item['domain'] == subset:
+                sub_dataset.append(item)
+        sub_dataset = Dataset.from_list(sub_dataset)
+        return sub_dataset
 
 
 def extract_last_boxed(response):
@@ -51,15 +40,12 @@ def extract_last_boxed(response):
         return None
 
 
-def two_label_score(processed_predictions, references, ues_cot: bool = False):
+def two_label_score(processed_predictions, references) -> dict:
+    """Calculate scores for a 2-label classification task ('a' as positive,
+    'b', 'c' as negative)."""
     details = []
-    cnt = 0
-    tp = 0  # 真正例
-    fp = 0  # 假正例
-    fn = 0  # 假负例
-    tn = 0  # 真负例
-    p_count = 0
-    n_count = 0
+    cnt, tp, fp, fn, tn = 0, 0, 0, 0, 0
+    p_count, n_count = 0, 0
 
     for pred, cand_ans in zip(processed_predictions, references):
         if '</think>' in pred:
@@ -76,25 +62,25 @@ def two_label_score(processed_predictions, references, ues_cot: bool = False):
         cnt += int(is_correct)
         detail['correct'] = is_correct
 
-        # 假设'a'为正类，'b'或'c'为负类
-        if cand_ans == 'a':  # 实际为正类
+        # Positive: a Negative: b or c
+        if cand_ans == 'a':
             p_count += 1
-            if pred == 'a':  # 预测为正类
+            if pred == 'a':
                 tp += 1
-            else:  # 预测为负类
+            else:
                 fn += 1
-        else:  # 实际为负类
+        else:
             n_count += 1
-            if pred == 'a':  # 预测为正类
+            if pred == 'a':
                 fp += 1
-            else:  # 预测为负类
+            else:
                 tn += 1
 
         details.append(detail)
 
     score = cnt / len(processed_predictions) * 100
 
-    # 计算F1分数
+    # Calculate F1 score
     precision = tp / (tp + fp) if (tp + fp) > 0 else 0
     recall = tp / (tp + fn) if (tp + fn) > 0 else 0
     f1 = 2 * (precision * recall) / (precision + recall) if (precision +
@@ -111,11 +97,11 @@ def two_label_score(processed_predictions, references, ues_cot: bool = False):
     }
 
 
-def three_label_score(processed_predictions, references):
+def three_label_score(processed_predictions, references) -> dict:
     """Calculates scores for a 3-label classification task ('a', 'b', 'c').
 
     It computes:
-    - Standard multi-class accuracy (prediction must exactly match ground truth).
+    - Standard multi-class accuracy.
     - Precision, Recall, F1-score for each class ('a', 'b', 'c') individually.
     - Macro-averaged F1-score.
     - A detailed list of predictions and their outcomes.
@@ -123,7 +109,7 @@ def three_label_score(processed_predictions, references):
     Labels 'a', 'b', 'c' are treated as distinct classes for all metrics.
     Textual predictions like "correct", "yes" are normalized to 'a',
     and "incorrect", "no" are normalized to 'b'.
-    """  # noqa: E501
+    """
     details_list = []
     standard_accuracy_correct_count = 0
 
@@ -144,9 +130,11 @@ def three_label_score(processed_predictions, references):
         ground_truth_label = ground_truth_text.strip().lower()
 
         normalized_pred_label = processed_pred_text
-        if processed_pred_text == 'correct' or '[correct]' in processed_pred_text or processed_pred_text == 'yes':  # noqa: E501 E261
+        if processed_pred_text == 'correct' or '[correct]' in \
+            processed_pred_text or processed_pred_text == 'yes':  # noqa: E501 E125
             normalized_pred_label = 'a'
-        elif processed_pred_text == 'incorrect' or '[incorrect]' in processed_pred_text or processed_pred_text == 'no':  # noqa: E501 E261
+        elif processed_pred_text == 'incorrect' or '[incorrect]' in \
+            processed_pred_text or processed_pred_text == 'no':  # noqa: E501 E125
             normalized_pred_label = 'b'
 
         # 3. Calculate correctness for standard multi-class accuracy
@@ -207,9 +195,9 @@ def three_label_score(processed_predictions, references):
         return precision, recall, f1
 
     # Calculate P/R/F1 for each class
-    precision_a, recall_a, f1_a = calculate_prf1(tp_a, fp_a, fn_a)
-    precision_b, recall_b, f1_b = calculate_prf1(tp_b, fp_b, fn_b)
-    precision_c, recall_c, f1_c = calculate_prf1(tp_c, fp_c, fn_c)
+    _, _, f1_a = calculate_prf1(tp_a, fp_a, fn_a)
+    _, _, f1_b = calculate_prf1(tp_b, fp_b, fn_b)
+    _, _, f1_c = calculate_prf1(tp_c, fp_c, fn_c)
 
     # 8. Calculate Macro-F1
     macro_f1 = (f1_a + f1_b + f1_c) / 3
@@ -238,7 +226,7 @@ class VerifierEvaluator(BaseEvaluator):
             return {'error': 'preds and refrs have different length'}
         processed_predictions = []
 
-        # 从预测中提取答案
+        # Calculate scores
         for pred in predictions:
             if 'boxed' in pred:
                 boxed_content = extract_last_boxed(pred)
