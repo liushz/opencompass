@@ -3,7 +3,7 @@ from opencompass.models import TurboMindModelwithChatTemplate
 from opencompass.utils.text_postprocessors import extract_non_reasoning_content
 
 with read_base():
-    from opencompass.configs.datasets.math.math_500_gen import math_datasets
+    from opencompass.configs.datasets.math.deprecated_math_500_gen import math_datasets
 
 models = [
     dict(

@@ -117,10 +117,10 @@ verifier_eval_cfg = dict(
     evaluator=dict(type=VerifierEvaluator, two_label=True))
 
 subsets = [
-        'verifierbench_v3_General_Reasoning.json',
-        'verifierbench_v3_Knowledge.json',
-        'verifierbench_v3_Math.json',
-        'verifierbench_v3_Science.json'
+        'Knowledge',
+        'Math',
+        'Science',
+        'General Reasoning'
         ]
 verifier_datasets = []
 
@@ -128,9 +128,8 @@ for subset in subsets:
     verifier_datasets.append(
         dict(
             type=VerifierEvalDataset,
-            abbr=f'verifier_{subset.split(".")[0]}-CoT',
-            # path='./data/verifier_eval',
-            path='/fs-computility/llmeval/liuhongwei/work/main_work/opencompass/data/verifier_eval/v2_all/0519',
+            abbr=f'verifier_{subset.replace(" ", "_")}_cot',
+            path='opencompass/VerifierBench',
             subset=subset,
             reader_cfg=verifier_reader_cfg,
             infer_cfg=verifier_infer_cfg,

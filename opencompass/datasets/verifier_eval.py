@@ -1,3 +1,5 @@
+import json
+import os
 import re
 
 from datasets import Dataset, load_dataset
@@ -13,17 +15,24 @@ class VerifierEvalDataset(BaseDataset):
 
     @staticmethod
     def load(path: str, subset: str):
-        # Load from huggingface
-        dataset = load_dataset(path)
         sub_dataset = []
-        for item in dataset:
-            if item['domain'] == subset:
-                sub_dataset.append(item)
+        if os.path.exists(path):
+            # Load from local
+            with open(os.path.join(path, subset), 'r') as f:
+                for line in f:
+                    sub_dataset.append(json.loads(line))
+        else:
+            # Load from huggingface
+            dataset = load_dataset(path, split='test')
+
+            for item in dataset:
+                if item['domain'] == subset:
+                    sub_dataset.append(item)
         sub_dataset = Dataset.from_list(sub_dataset)
         return sub_dataset
 
 
-def extract_last_boxed(response):
+def extract_last_boxed(response) -> str | None:
     pattern_2 = r'\\boxed\{(.*?)\}'
     pattern_1 = r'\\boxed\{\{(.*?)\}\}'
     match_1 = re.findall(pattern_1, response)
@@ -40,6 +49,24 @@ def extract_last_boxed(response):
         return None
 
 
+def check_label(pred, cand_ans) -> tuple[dict, bool]:
+    if '</think>' in pred:
+        pred = pred.split('</think>')[-1]
+    pred, cand_ans = pred.strip().lower(), cand_ans.strip().lower()
+    if pred in [
+            'a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3'
+    ]:
+        pred = pred[0]
+    detail = {'pred': pred, 'answer': cand_ans, 'correct': False}
+    if pred == 'correct' or '[correct]' in pred or pred == 'yes':
+        pred = 'a'
+    elif pred == 'incorrect' or '[incorrect]' in pred or pred == 'no':
+        pred = 'b'
+    is_correct = (pred == cand_ans
+                  or (pred in ['c', 'b'] and cand_ans in ['b', 'c']))
+    return pred, cand_ans, detail, is_correct
+
+
 def two_label_score(processed_predictions, references) -> dict:
     """Calculate scores for a 2-label classification task ('a' as positive,
     'b', 'c' as negative)."""
@@ -48,17 +75,7 @@ def two_label_score(processed_predictions, references) -> dict:
     p_count, n_count = 0, 0
 
     for pred, cand_ans in zip(processed_predictions, references):
-        if '</think>' in pred:
-            pred = pred.split('</think>')[-1]
-        pred, cand_ans = pred.strip().lower(), cand_ans.strip().lower()
-        detail = {'pred': pred, 'answer': cand_ans, 'correct': False}
-        # For xverify
-        if pred == 'correct' or '[correct]' in pred or pred == 'yes':
-            pred = 'a'
-        elif pred == 'incorrect' or '[incorrect]' in pred or pred == 'no':
-            pred = 'b'
-        is_correct = (pred == cand_ans
-                      or (pred in ['c', 'b'] and cand_ans in ['b', 'c']))
+        pred, cand_ans, detail, is_correct = check_label(pred, cand_ans)
         cnt += int(is_correct)
         detail['correct'] = is_correct
 
