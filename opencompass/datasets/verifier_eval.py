@@ -18,9 +18,11 @@ class VerifierEvalDataset(BaseDataset):
         sub_dataset = []
         if os.path.exists(path):
             # Load from local
-            with open(os.path.join(path, subset), 'r') as f:
+            with open(path, 'r') as f:
                 for line in f:
-                    sub_dataset.append(json.loads(line))
+                    item = json.loads(line)
+                    if item['domain'] == subset:
+                        sub_dataset.append(item)
         else:
             # Load from huggingface
             dataset = load_dataset(path, split='test')
