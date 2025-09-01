@@ -38,7 +38,7 @@ class RJOBRunner(BaseRunner):
         task: ConfigDict,
         rjob_cfg: ConfigDict,
         max_num_workers: int = 32,
-        retry: int = 100,
+        retry: int = 3,
         debug: bool = False,
         lark_bot_url: str = None,
         keep_tmp_file: bool = True,
@@ -93,8 +93,6 @@ class RJOBRunner(BaseRunner):
             found_dict = False
             for line in output.splitlines():
                 logger.info(f'line: {line}')
-                if 'rjob oc-infer' not in line and 'rjob oc-eval' not in line:
-                    continue
                 if 'Starting' in line:
                     status = 'Starting'
                     found_dict = True
@@ -152,7 +150,7 @@ class RJOBRunner(BaseRunner):
         if random_sleep is None:
             random_sleep = self.max_num_workers > 8
         if random_sleep:
-            sleep_time = random.randint(0, 60)
+            sleep_time = random.randint(0, 30)
             logger = get_logger()
             logger.info(f'Sleeping for {sleep_time} seconds to launch task')
             time.sleep(sleep_time)
@@ -177,16 +175,26 @@ class RJOBRunner(BaseRunner):
             args = []
             # Basic parameters
             args.append(f'--name={task_name}')
-            if num_gpus > 0:
-                args.append(f'--gpu={num_gpus}')
-            if hasattr(task, 'memory'):
-                args.append(f'--memory={getattr(task, "memory")}')
-            elif self.rjob_cfg.get('memory', 300000):
-                args.append(f'--memory={self.rjob_cfg["memory"]}')
-            if hasattr(task, 'cpu'):
-                args.append(f'--cpu={getattr(task, "cpu")}')
-            elif self.rjob_cfg.get('cpu', 16):
-                args.append(f'--cpu={self.rjob_cfg["cpu"]}')
+            if num_gpus == 0:
+                args.append('--gpu=0')
+            elif num_gpus == 1:
+                args.append('--gpu=1')
+                args.append('--memory=200000')
+                args.append('--cpu=32')
+            elif num_gpus == 2:
+                args.append('--gpu=2')
+                args.append('--memory=400000')
+                args.append('--cpu=64')
+            elif num_gpus == 4:
+                args.append('--gpu=4')
+                args.append('--memory=800000')
+                args.append('--cpu=128')
+            elif num_gpus == 8:
+                args.append('--gpu=8')
+                args.append('--memory=1600000')
+                args.append('--cpu=256')
+            else:
+                raise ValueError(f'Unsupported number of GPUs: {num_gpus}')
             if self.rjob_cfg.get('charged_group'):
                 args.append(
                     f'--charged-group={self.rjob_cfg["charged_group"]}')
@@ -205,7 +213,26 @@ class RJOBRunner(BaseRunner):
             if self.rjob_cfg.get('replicas'):
                 args.append(f'-P {self.rjob_cfg["replicas"]}')
             if self.rjob_cfg.get('host_network'):
-                args.append(f'--host-network={self.rjob_cfg["host_network"]}')
+                host_network_val = self.rjob_cfg['host_network']
+                if isinstance(host_network_val, bool):
+                    host_network_val = 'true' if host_network_val else 'false'
+                args.append(f'--host-network={host_network_val}')
+            if self.rjob_cfg.get('gang_start'):
+                gang_start_val = self.rjob_cfg['gang_start']
+                if isinstance(gang_start_val, bool):
+                    gang_start_val = 'true' if gang_start_val else 'false'
+                args.append(f'--gang-start={gang_start_val}')
+            if self.rjob_cfg.get('auto_restart'):
+                auto_restart_val = self.rjob_cfg['auto_restart']
+                if isinstance(auto_restart_val, bool):
+                    auto_restart_val = 'true' if auto_restart_val else 'false'
+                args.append(f'--auto-restart={auto_restart_val}')
+            if self.rjob_cfg.get('preemptible'):
+                preemptible_val = self.rjob_cfg['preemptible']
+                # 处理布尔值或字符串值
+                if isinstance(preemptible_val, bool):
+                    preemptible_val = 'yes' if preemptible_val else 'no'
+                args.append(f'--preemptible={preemptible_val}')
             # Environment variables
             envs = self.rjob_cfg.get('env', {})
             if isinstance(envs, dict):
@@ -214,6 +241,12 @@ class RJOBRunner(BaseRunner):
             elif isinstance(envs, list):
                 for e in envs:
                     args.append(f'-e {e}')
+
+            # Additional environment variables from extra_envs
+            extra_envs = self.rjob_cfg.get('extra_envs', [])
+            if isinstance(extra_envs, list):
+                for env_var in extra_envs:
+                    args.append(f'-e {env_var}')
             # Additional arguments
             if self.rjob_cfg.get('extra_args'):
                 args.extend(self.rjob_cfg['extra_args'])
@@ -224,7 +257,32 @@ class RJOBRunner(BaseRunner):
                               cfg_path=param_file,
                               template=tmpl)
             entry_cmd = get_cmd()
-            entry_cmd = f'bash -c "cd {pwd} && {entry_cmd}"'
+            
+            # 如果配置了特定的 Python 环境，替换命令中的 python 路径
+            if self.rjob_cfg.get('python_env_path'):
+                python_path = f"{self.rjob_cfg['python_env_path']}/bin/python"
+                import sys
+                current_python = sys.executable
+                
+                # 更安全的替换逻辑：只替换一次，避免重复
+                if current_python in entry_cmd:
+                    entry_cmd = entry_cmd.replace(current_python, python_path, 1)
+                    logger.info(f'Replaced {current_python} with {python_path}')
+                else:
+                    # 如果没有找到完整路径，尝试替换 python 命令开头
+                    import re
+                    # 匹配命令开头的 python（避免替换路径中的 python）
+                    entry_cmd = re.sub(r'^python\s+', f'{python_path} ', entry_cmd)
+                    logger.info(f'Using specified Python path: {python_path}')
+                
+                logger.info(f'Final entry command after Python replacement: {entry_cmd}')
+            
+            # 在命令中添加环境变量设置
+            if self.rjob_cfg.get('python_env_path'):
+                env_setup = f'export PATH={self.rjob_cfg["python_env_path"]}/bin:$PATH && export PYTHONPATH={pwd}:$PYTHONPATH && '
+                entry_cmd = f'bash -c "cd {pwd} && {env_setup}{entry_cmd}"'
+            else:
+                entry_cmd = f'bash -c "cd {pwd} && {entry_cmd}"'
             # Construct complete command
             cmd = f"rjob submit {' '.join(args)} -- {entry_cmd}"
             logger = get_logger()
@@ -237,9 +295,10 @@ class RJOBRunner(BaseRunner):
                 mmengine.mkdir_or_exist(osp.split(out_path)[0])
 
             retry = self.retry
-            if retry == 0:
-                retry = 100
-            while retry > 0:
+            result = None
+            # 至少执行一次，即使 retry=0
+            attempts = max(1, retry + 1)
+            for attempt in range(attempts):
                 # Only submit, no polling
                 result = subprocess.run(cmd,
                                         shell=True,
@@ -247,14 +306,15 @@ class RJOBRunner(BaseRunner):
                                         capture_output=True)
                 logger.info(f'CMD: {cmd}')
                 logger.info(f'Command output: {result.stdout}')
-                logger.error(f'Command error: {result.stderr}')
+                if result.stderr:
+                    logger.error(f'Command error: {result.stderr}')
                 logger.info(f'Return code: {result.returncode}')
                 if result.returncode == 0:
                     break
-                retry -= 1
-                retry_time = random.randint(5, 60)
-                logger.info(f"The {retry}'s retry in {retry_time} seconds")
-                time.sleep(retry_time)
+                if attempt < attempts - 1:  # 不是最后一次尝试
+                    retry_time = random.randint(5, 60)
+                    logger.info(f"Attempt {attempt + 1} failed, retrying in {retry_time} seconds")
+                    time.sleep(retry_time)
             if result.returncode != 0:
                 # Submit failed, return directly
                 return task_name, result.returncode

@@ -25,7 +25,7 @@ class VerifierEvalDataset(BaseDataset):
                         sub_dataset.append(item)
         else:
             # Load from huggingface
-            dataset = load_dataset(path, split='test')
+            dataset = load_dataset(path, split='test', download_mode="reuse_dataset_if_exists")
 
             for item in dataset:
                 if item['domain'] == subset:
