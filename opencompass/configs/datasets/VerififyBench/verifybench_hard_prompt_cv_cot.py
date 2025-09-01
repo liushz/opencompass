@@ -178,8 +178,8 @@ for subset in subsets:
     verifier_datasets.append(
         dict(
             type=VerifierEvalDataset,
-            abbr=f'verifier_{subset.split(".")[0]}',
-            path='/fs-computility/llmeval/liushudong/CompassVerifier/sci/data/verifybench/',
+            abbr=f'verifier_{subset.split(".")[0]}_cv_cot',
+            path='/mnt/shared-storage-user/liuhongwei/main_works/opencompass/data/verifier_eval/verifybench',
             subset=subset,
             reader_cfg=verifier_reader_cfg,
             infer_cfg=verifier_infer_cfg,

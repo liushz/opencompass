@@ -73,7 +73,7 @@ class VerifierEvaluator(BaseEvaluator):
                 # For CompassVerifier, the output format is \boxed{A/B/C}
                 if 'boxed' in pred:
                     boxed_content = extract_last_boxed(pred)
-                    if len(boxed_content) > 1:
+                    if boxed_content and len(boxed_content) > 1:
                         print(">>>>>> original pred: ", pred,">>>>>> boxed_content: ", boxed_content)
                     processed_predictions.append(
                         boxed_content if boxed_content else '')
