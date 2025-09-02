@@ -150,7 +150,22 @@ Solution to be evaluated: {llm_response}
 """
 
 
-COMPASSVERIFIER_PROMPT_COT = """As a grading expert, your task is to determine whether the candidate's final answer matches the provided standard answer. Follow these evaluation guidelines precisely:
+COMPASSVERIFIER_PROMPT_COT_TEST = """
+<INPUT DATA BEGIN>:
+<Original Question Begin>
+{question}
+<Original Question End>
+
+<Standard Answer Begin>
+{gold_answer}
+<Standard Answer End>
+
+<Candidate's Answer Begin>
+{llm_response}
+<Candidate's Answer End>
+<INPUT DATA END>
+
+As a grading expert, your task is to determine whether the candidate's final answer matches the provided standard answer. Follow these evaluation guidelines precisely:
 
 Evaluation Protocol:
 1. Reference Standard:
@@ -207,18 +222,6 @@ Thoroughly evaluate the candidate's answer including:
 - Allowed expression formats]
 Final Judgment: \\boxed{{A/B/C}} - <CORRECT/INCORRECT/INCOMPLETE/REPETITIVE/REFUSAL>
 
-Here is your task.
-<Original Question Begin>
-{question}
-<Original Question End>
-
-<Standard Answer Begin>
-{gold_answer}
-<Standard Answer End>
-
-<Candidate's Answer Begin>
-{llm_response}
-<Candidate's Answer End>
 
 Analysis step by step and Final Judgment:
 """

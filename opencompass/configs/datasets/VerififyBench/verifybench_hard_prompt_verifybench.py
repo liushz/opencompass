@@ -149,6 +149,31 @@ Reference Answer: {gold_answer}
 Solution to be evaluated: {llm_response}
 """
 
+VERIFYBENCH_PROMPT_COT_TEST = """
+<INPUT DATA BEGIN>:
+<Original Question Begin>
+{question}
+<Original Question End>
+
+<Standard Answer Begin>
+{gold_answer}
+<Standard Answer End>
+
+<Candidate's Answer Begin>
+{llm_response}
+<Candidate's Answer End>
+<INPUT DATA END>
+
+Given the following math problem and the reference answer. Judge the correctness of the answers given later, with some ability to generalize and match the form and format of the answer results.
+
+The following specific requirements are followed when judging:
+1. Judge only whether the final result of the reference answer and the answer to be judged agree; do not consider whether there are any errors in the process. Don't verify the correctness of the answer by yourself, please only refer to the reference answer for the correctness of the answer.
+2. The reference answer and the answer to be judged only need to be essentially the same, ignoring irrelevant details such as units, symbols, whether or not to approximate, and the form of expression in the answer. The two answers are considered to be consistent if they are equivalently transformable.
+3. All your analysis answer must be in English.
+4. Please analyze the judged answer and try to compare it with the reference answer. At the end of all analysis, give the result of the judgment on an extra line at the end of the answer in the form 'Final Judgment: Yes/No'.
+
+"""
+
 
 PROMPT = VERIFYBENCH_PROMPT_COT  # COMPASSVERIFIER_PROMPT_COT # COMPASSVERIFIER_PROMPT_NO_COT
 verifier_reader_cfg = dict(input_columns=['question, llm_response, gold_answer'], output_column='gold_judgment', test_split='test')
